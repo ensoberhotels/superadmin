@@ -113,9 +113,9 @@ class superAdminController extends Controller
 				$request->session()->put('admin.user', $admin->user);
 				$request->session()->put('admin.password', $admin->password);
 				$request->session()->push('admin.id', $admin->id);
-				return redirect('/dashboard');
+				return redirect('/company-master');
 			}else{
-				return redirect('admin');
+				return redirect('/');
 			}
 		}catch(Exseption $e){
 			return response()->json(['error' => $e->getMessage()]);

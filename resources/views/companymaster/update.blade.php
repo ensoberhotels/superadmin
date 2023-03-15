@@ -154,7 +154,7 @@ input:focus, textarea:focus, select:focus{
                           <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                              <label class="active">Company Email</label>
-                             <input type="email" value="{{$record->email}}" name="company_email" id="company_email" class="form-control"> 
+                             <input type="email" value="{{$record->email}}" name="company_email" onblur="usernameCom()" id="company_email" class="form-control"> 
                             </div>
                           </div>
                           <div class="col-sm-12 col-md-3">
@@ -198,6 +198,20 @@ input:focus, textarea:focus, select:focus{
                              <label class="active">Company Description</label>
                              <textarea type="text" name="company_desc" id="company_desc" class="form-control">{{@$record->description}}</textarea>
                              <input type="hidden" name="id" value="{{@$record->id}}" id="id" class="form-control"> 
+                            </div>
+                          </div>
+                          <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                             <label class="active">Userame</label>
+                             <input type="text" name="username" value="{{$record->email}}" id="username" class="form-control" readonly>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                             <label class="active">Password</label>
+                             <input type="password" name="password" id="password" class="form-control">
                             </div>
                           </div>
                           <div class=" col-sm-12 col-md-3" style="width: 25%;">
@@ -313,6 +327,10 @@ input:focus, textarea:focus, select:focus{
             }
           }
         });
+      } 
+      function usernameCom(){
+        var email=jQuery('#company_email').val();
+        jQuery('#username').val(email);
       } 
      </script>
 @endsection

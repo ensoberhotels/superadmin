@@ -150,7 +150,7 @@ input:focus, textarea:focus, select:focus{
                           <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                              <label class="active">Company Email</label>
-                             <input type="email" name="company_email" id="company_email" class="form-control"> 
+                             <input type="email" name="company_email" id="company_email" class="form-control" onblur="usernameCom()"> 
                             </div>
                           </div>
                           <div class="col-sm-12 col-md-3">
@@ -191,7 +191,21 @@ input:focus, textarea:focus, select:focus{
                           <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                              <label class="active">Company Description</label>
-                             <textarea  type="text" name="company_desc" id="company_desc" class="form-control"> </textarea>
+                             <textarea  type="text" name="company_desc" id="company_desc" class="form-control" style="height: 33px;"> </textarea>
+                            </div>
+                          </div>
+                          <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                             <label class="active">Userame</label>
+                             <input type="text" name="username" id="username" class="form-control" readonly>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                             <label class="active">Password</label>
+                             <input type="password" name="password" id="password" class="form-control">
                             </div>
                           </div>
                           <div class=" col-sm-12 col-md-3" style="width: 25%;">
@@ -302,7 +316,7 @@ input:focus, textarea:focus, select:focus{
                 timeout: 5000, 
                 icon: 'fa fa-chrome', 
                 title: 'Success', 
-                message: response.msg,
+                message: response.msg + '<br> Username :- ' + response.data.user + '<br> Password :- ' + response.data.password,
                 position:'topRight'
               });
               setTimeout(function() {
@@ -313,6 +327,10 @@ input:focus, textarea:focus, select:focus{
             }
           }
         });
+      }
+      function usernameCom(){
+        var email=jQuery('#company_email').val();
+        jQuery('#username').val(email);
       } 
      </script>
 @endsection

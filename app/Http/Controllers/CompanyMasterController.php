@@ -57,7 +57,7 @@ class CompanyMasterController extends Controller
 		try{
 			$validator = \Validator::make($request->all(), [ 
             	'company_name'=>'required',
-            	'company_gstin'=>'required',
+            	// 'company_gstin'=>'required',
             	'company_type'=>'required',
             	'company_mobile'=>'required',
             	'company_email'=>'required',
@@ -87,15 +87,30 @@ class CompanyMasterController extends Controller
             //dd($post);
             $save=CompanyMaster::insert($post);
             $data=[
-            	'user'	=>	$request->company_email,
-            	'password'		=>	'123456',
+            	'user'	=>	$request->username,
+            	'password'		=>	$request->password,
             	'user_type'=>'CA',
             ];
+            $message= '<table>
+            	<tr>
+            		<td>Username</td>
+            		<td>'.$request->username.'</td>
+            	</tr>
+            	<tr>
+            		<td>Password</td>
+            		<td>'.$request->password.'</td>
+            	</tr>
+            </table>';
+            $from =$request->username;
+            $to =$request->username;
+            $subject = 'Your Login Credential';
+            $pdf_name='';$ccemail='';
             $sav=Admin::insert($data);
+            $this->send($message, $subject, $from, $to, $pdf_name='', $ccemail='');
             if($save){
             	\DB::commit();
             	//dd($save);
-            	return response()->json(['status' => 1, 'msg' => 'Added Successfully', 'data' => '']);
+            	return response()->json(['status' => 1, 'msg' => 'Added Successfully', 'data' => $data]);
             }else{
             	\DB::rollback();
             	return response()->json(['status' => 0, 'msg' => 'Data not save!', 'data' => '']);
@@ -116,7 +131,7 @@ class CompanyMasterController extends Controller
 		try{
 			$validator = \Validator::make($request->all(), [ 
             	'company_name'=>'required',
-            	'company_gstin'=>'required',
+            	//'company_gstin'=>'required',
             	'company_type'=>'required',
             	'company_mobile'=>'required',
             	'company_email'=>'required',
@@ -147,12 +162,12 @@ class CompanyMasterController extends Controller
             ];
             //dd($post);
             $save=CompanyMaster::where('id',$request->id)->update($post);
-            $data=[
-            	'user'	=>	$request->company_email,
-            	'password'		=>	'123456',
-            	'user_type'=>'CA'
-            ];
-            $sav=Admin::insert($data);
+            // $data=[
+            // 	'user'	=>	$request->company_email,
+            // 	'password'		=>	'123456',
+            // 	'user_type'=>'CA'
+            // ];
+            // $sav=Admin::insert($data);
             if($save){
             	\DB::commit();
             	//dd($save);

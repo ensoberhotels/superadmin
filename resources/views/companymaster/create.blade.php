@@ -223,9 +223,19 @@ input:focus, textarea:focus, select:focus{
             </div>
         </div>
     </div>
-
-
-
+<div class="modal fade" id="exampleModal" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 43%;max-height: 67%;overflow: unset;">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- <div class="modal-header">
+        <h5 class="modal-title text" id="exampleModalLabel">Company Admin Login Credential</h5>
+      </div> -->
+      <div class="modal-body" id="text"> <h5 class="modal-title text"
+      id="exampleModalLabel">Company Admin Login Credential</h5> <P
+      class="text">Username :- <span id="lusername"></span></P> <P
+      class="text">Password :- <span id="lpassword"></span></P> </div> <div
+      class="modal-footer"> <button type="button" id="btn_copy" class="btn
+      btn-primary btn_copy_quo" onclick="copyToClipboard
+      ('text')">Copy</button> </div> </div> </div> </div> </div>
 
 </div>
 <!-- END RIGHT SIDEBAR NAV -->
@@ -312,15 +322,21 @@ input:focus, textarea:focus, select:focus{
           success: function(response) {
             console.log(response);
             if (response.status == 1) {
+              
               iziToast.success({
                 timeout: 5000, 
                 icon: 'fa fa-chrome', 
                 title: 'Success', 
-                message: response.msg + '<br> Username :- ' + response.data.user + '<br> Password :- ' + response.data.password,
+                message: response.msg,
                 position:'topRight'
               });
+              jQuery('#lusername').text(response.data.user);
+              jQuery('#lpassword').text(response.data.password);
               setTimeout(function() {
-                location.href='/company-master';
+                  $('#exampleModal').modal();
+                  $('#exampleModal').css('display','block');
+                  $('#exampleModal').css('opacity','1');
+                //location.href='/company-master';
               }, 5000);
             }else{
               iziToast.error({timeout: 5000,title: 'Required', message: response.msg,position:'topRight'});
@@ -332,5 +348,23 @@ input:focus, textarea:focus, select:focus{
         var email=jQuery('#company_email').val();
         jQuery('#username').val(email);
       } 
+      function copyToClipboard(element) {
+        jQuery(".btn_copy_quo").text('Copying...');
+          var r = document.createRange();
+          r.selectNode(document.getElementById(element));
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(r);
+          document.execCommand('copy');
+          window.getSelection().removeAllRanges();
+          setTimeout(function(){
+            jQuery(".btn_copy_quo").text("Copied");
+          },500);
+          setTimeout(function(){
+            jQuery(".btn_copy_quo").text("Copy Credential");
+          },1000);
+          setTimeout(function(){
+            location.href='/company-master';
+          },5000);
+        }
      </script>
 @endsection

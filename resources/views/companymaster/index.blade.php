@@ -223,7 +223,7 @@ table.dataTable thead .sorting {
               });
               setTimeout(function() {
                 location.reload();
-              }, 5000);
+              }, 3000);
             }else{
               iziToast.error({timeout: 5000,title: 'Required', message: response.msg,position:'topRight'});
             }

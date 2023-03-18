@@ -121,7 +121,7 @@ class CompanyPrivilageController extends Controller
 	public function save(Request $request){
 		//dd($request->all());
 		\DB::beginTransaction();
-		try{
+		// try{
             if(count($request->yes_nos)>0){
         		for($i=0;$i<count($request->yes_nos);$i++){
         			$post=[
@@ -132,6 +132,7 @@ class CompanyPrivilageController extends Controller
 		            	'login_type'	=>	$request->login_typ,
 		            	'module_id'		=>	$request->module
 		            ];
+		            dd($post);
 		            $save=CompanyPrivilage::insert($post);
         		}
         	}
@@ -146,10 +147,10 @@ class CompanyPrivilageController extends Controller
             	return response()->json(['status' => 0, 'msg' => 'Data not save!', 'data' => '']);
             }
             
-		}catch(Exception $e){
-			\DB::rollback();
-            return response()->json(['status' => 0, 'msg' => $e->getMessage(), 'data' => '']);
-		}
+		// }catch(Exception $e){
+		// 	\DB::rollback();
+  //           return response()->json(['status' => 0, 'msg' => $e->getMessage(), 'data' => '']);
+		// }
 	}
 	public function edit($id){
 		$record=CompanyPrivilage::where('module_id',$id)->first();

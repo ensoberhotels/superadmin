@@ -113,7 +113,7 @@ input:focus, textarea:focus, select:focus{
               <!-- Linear Stepper -->	  
               <div class="row">
                 <div class="col s12">
-                  <div class="card" style="height: 478px;">
+                  <div class="card">
                     <div class="card-content">
                       <div class="card-header">
                           <h4 class="card-title">Create Company Privilege</h4>

@@ -121,22 +121,29 @@ class CompanyPrivilageController extends Controller
 	public function save(Request $request){
 		//dd($request->all());
 		\DB::beginTransaction();
-		// try{
-            if(count($request->yes_nos)>0){
-        		for($i=0;$i<count($request->yes_nos);$i++){
-        			$post=[
-		            	'company_id'	=>	$request->company_id,
-		            	'menu_id'		=>	$request->menu_id[$i],
-		            	'permission'	=> 	$request->yes_nos[$i],
-		            	'created_by'	=>	'Admin',
-		            	'login_type'	=>	$request->login_typ,
-		            	'module_id'		=>	$request->module
-		            ];
-		            dd($post);
-		            $save=CompanyPrivilage::insert($post);
+		try{
+			if(count($request->module)>0){
+        		for($i=0;$i<count($request->module);$i++){
+					if(count($request->yes_nos)>0){
+						for($j=0;$j<count($request->yes_nos);$j++){
+							$menu	=	MenuMaster::where('module', $request->module[$i])->where('id', $request->menu_id[$j])->first();
+							if ($menu) {
+								$post=[
+									'company_id'	=>	$request->company_id,
+									'menu_id'		=>	$request->menu_id[$j],
+									'permission'	=> 	$request->yes_nos[$j],
+									'created_by'	=>	'Admin',
+									'updated_by'	=>	'Admin',
+									'login_type'	=>	$request->login_typ,
+									'module_id'		=>	$request->module[$i]
+								];
+								// dd($post);
+								$save=CompanyPrivilage::insert($post);
+							}
+						}
+					}
         		}
         	}
-            
 
             if($save){
             	\DB::commit();
@@ -147,10 +154,10 @@ class CompanyPrivilageController extends Controller
             	return response()->json(['status' => 0, 'msg' => 'Data not save!', 'data' => '']);
             }
             
-		// }catch(Exception $e){
-		// 	\DB::rollback();
-  //           return response()->json(['status' => 0, 'msg' => $e->getMessage(), 'data' => '']);
-		// }
+		}catch(Exception $e){
+			\DB::rollback();
+            return response()->json(['status' => 0, 'msg' => $e->getMessage(), 'data' => '']);
+		}
 	}
 	public function edit($id){
 		$record=CompanyPrivilage::where('module_id',$id)->first();
@@ -168,7 +175,7 @@ class CompanyPrivilageController extends Controller
 		            	// 'company_id'	=>	$request->company_id,
 		            	// 'menu_id'		=>	$request->menu_id[$i],
 		            	'permission'	=> 	$request->yes_nos[$i],
-		            	'updated_by'	=>	'1',
+						'updated_by'	=>	'Admin',
 		            	// 'login_type'	=>	$request->login_typ,
 		            	// 'module_id'		=>	$request->module
 		            ];

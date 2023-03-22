@@ -60,7 +60,7 @@ class CompanyMasterController extends Controller
             	// 'company_gstin'=>'required',
             	'company_type'=>'required',
             	'company_mobile'=>'required',
-            	'company_email'=>'required',
+            	'company_email'=>'required|exists:sua_company_master,email',
             ]);
             if ($validator->fails()) { 
                 return response()->json(['status' => 0, 'msg' => 'Error: '.$validator->errors()->first(), 'data' => '']);
@@ -71,25 +71,26 @@ class CompanyMasterController extends Controller
                 $destinationPath = public_path('/asset/company_logo');
                 $request->file('company_logo')->move($destinationPath, $name);
              }
-            $post=[
-            	'company_name'	=>	$request->company_name,
-            	'gstin'			=>	$request->company_gstin,
-            	'company_type'	=>	$request->company_type,
-            	'mobile'		=>	$request->company_mobile,
-            	'email'			=>	$request->company_email,
-            	'website'		=>	$request->company_web,
-            	'description'	=>	$request->company_desc,
-            	'logo'			=>	(isset($name) ? $name : ''),
-            	'address'		=>	$request->company_add,
-            	'no_of_user'	=> $request->no_of_user
-            ];
+            	$CompanyMaster=new CompanyMaster();
+            	$CompanyMaster->company_name	=	$request->company_name;
+					$CompanyMaster->gstin			=	$request->company_gstin;
+					$CompanyMaster->company_type	=	$request->company_type;
+					$CompanyMaster->mobile		=	$request->company_mobile;
+					$CompanyMaster->email			=	$request->company_email;
+					$CompanyMaster->website		=	$request->company_web;
+					$CompanyMaster->description	=	$request->company_desc;
+					$CompanyMaster->logo			=	(isset($name) ? $name : '');
+					$CompanyMaster->address		=	$request->company_add;
+					$CompanyMaster->no_of_user	= $request->no_of_user;
+            	$CompanyMaster->save();
 
             //dd($post);
-            $save=CompanyMaster::insert($post);
+            //::insert($post);
             $data=[
             	'user'	=>	$request->username,
             	'password'		=>	$request->password,
             	'user_type'=>'CA',
+            	'comp_id'=>$CompanyMaster->id
             ];
             $message= '<table>
             	<tr>
@@ -107,7 +108,7 @@ class CompanyMasterController extends Controller
             $pdf_name='';$ccemail='';
             $sav=Admin::insert($data);
             $this->send($message, $subject, $from, $to, $pdf_name='', $ccemail='');
-            if($save){
+            if($sav){
             	\DB::commit();
             	//dd($save);
             	return response()->json(['status' => 1, 'msg' => 'Added Successfully', 'data' => $data]);

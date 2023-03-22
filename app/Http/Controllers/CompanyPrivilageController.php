@@ -130,7 +130,7 @@ class CompanyPrivilageController extends Controller
 		            	'permission'	=> 	$request->yes_nos[$i],
 		            	'created_by'	=>	'Admin',
 		            	'login_type'	=>	$request->login_typ,
-		            	'module_id'		=>	$request->module
+		            	'module_id'		=>	$request->module[]
 		            ];
 		            dd($post);
 		            $save=CompanyPrivilage::insert($post);

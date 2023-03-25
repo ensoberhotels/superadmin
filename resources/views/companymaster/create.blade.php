@@ -330,13 +330,13 @@ input:focus, textarea:focus, select:focus{
                 message: response.msg,
                 position:'topRight'
               });
-              jQuery('#lusername').text(response.data.user);
-              jQuery('#lpassword').text(response.data.password);
+              // jQuery('#lusername').text(response.data.user);
+              // jQuery('#lpassword').text(response.data.password);
               setTimeout(function() {
-                  $('#exampleModal').modal();
-                  $('#exampleModal').css('display','block');
-                  $('#exampleModal').css('opacity','1');
-                //location.href='/company-master';
+                  // $('#exampleModal').modal();
+                  // $('#exampleModal').css('display','block');
+                  // $('#exampleModal').css('opacity','1');
+                location.href='/company-master';
               }, 5000);
             }else{
               iziToast.error({timeout: 5000,title: 'Required', message: response.msg,position:'topRight'});

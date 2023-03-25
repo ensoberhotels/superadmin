@@ -60,7 +60,7 @@ class CompanyMasterController extends Controller
             	// 'company_gstin'=>'required',
             	'company_type'=>'required',
             	'company_mobile'=>'required',
-            	'company_email'=>'required|exists:sua_company_master,email',
+            	'company_email'=>'required|email|unique:sua_company_master,email',
             ]);
             if ($validator->fails()) { 
                 return response()->json(['status' => 0, 'msg' => 'Error: '.$validator->errors()->first(), 'data' => '']);
@@ -135,7 +135,7 @@ class CompanyMasterController extends Controller
             	//'company_gstin'=>'required',
             	'company_type'=>'required',
             	'company_mobile'=>'required',
-            	'company_email'=>'required',
+            	'company_email'=>'required|email|unique:sua_company_master,email',
             ]);
             if ($validator->fails()) { 
                 return response()->json(['status' => 0, 'msg' => 'Error: '.$validator->errors()->first(), 'data' => '']);

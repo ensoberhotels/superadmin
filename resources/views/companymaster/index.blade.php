@@ -101,10 +101,10 @@ table.dataTable thead .sorting {
                 <tbody>
                      @php $i=1;@endphp
 				        @foreach($company as $companys)
-                        <tr>
-                           <td>{{$i}}</td>
-                           <td>{{$companys->company_name}}</td>
-                           <td><img src="{{ asset('asset/company_logo/') }}/{{$companys->logo}}" height="50" width="50" alt="tag"></td>
+                        <tr id="text_{{$i}}">
+                           <td style="display: inline-block;">{{$i}} <button type="button" id="btn_copy" class="btn btn-primary btn_copy_quo" id="btn_copy_quo_{{$i}}" onclick="copyToClipboard('text_',{{$i}})" style="padding: 2px;font-size: 14px;height: 27px;">Copy</button></td>
+                           <td >{{$companys->company_name}}</td>
+                           <td><img src="{{ asset('public/asset/company_logo/') }}/{{$companys->logo}}" height="50" width="50" alt="tag"></td>
                            <td>{{$companys->address}}</td>
                            <td>{{$companys->mobile}}</td>
                            <td>{{$companys->email}}</td>
@@ -151,10 +151,14 @@ table.dataTable thead .sorting {
 @section('scripts')
 <style type="text/css">
    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-    padding-left: 3px;
+    padding-left: 0px;
     line-height: 1;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: normal;
+    width: 100px;
+    position: relative;
+    /* display: inline-block; */
+    white-space: nowrap;
 }
 .bg-danger{
     --bs-bg-opacity: 1;
@@ -230,5 +234,20 @@ table.dataTable thead .sorting {
           }
         });
     }
+    function copyToClipboard(element,id) {
+        jQuery("#btn_copy_quo_"+id).text('Copying...');
+          var r = document.createRange();
+          r.selectNode(document.getElementById(element+id));
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(r);
+          document.execCommand('copy');
+          window.getSelection().removeAllRanges();
+          setTimeout(function(){
+            jQuery("#btn_copy_quo_"+id).text("Copied");
+          },500);
+          setTimeout(function(){
+            jQuery("#btn_copy_quo_"+id).text("Copy Credential");
+          },1000);
+        }
 	</script>
 @endsection

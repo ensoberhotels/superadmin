@@ -188,7 +188,7 @@ class superAdminController extends Controller
 	 */
 	public function logout(){
 		session()->flush();
-		return redirect('/admin');
+		return redirect('/');
 	}
 
 	/**

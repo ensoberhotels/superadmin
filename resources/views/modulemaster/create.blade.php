@@ -145,7 +145,7 @@ input:focus, textarea:focus, select:focus{
                           <div class=" col-sm-12 col-md-2">
                             <label class="active" style="height: 19px;"></label>
                             <div>
-                              <button class="btn waves-effect waves-light left" type="button" onclick="saveData()" name="action" id="add_hotel" style="margin-right: 10px;height: 26px;padding: 0px 0px;font-size: 12px;line-height: 1;">Save
+                              <button class="btn waves-effect waves-light left submitData"  type="button" onclick="saveData()" name="action" id="add_hotel" style="margin-right: 10px;height: 26px;padding: 0px 0px;font-size: 12px;line-height: 1; color: white;">Save
                                 <i class="material-icons right">send</i>
                               </button>
                               <a href="{{URL::to('/module-master')}}" class="btn waves-effect waves-dark" style="background-color: #bfb32b;color: #fff;height: 26px;padding: 6px 4px;font-size: 12px;line-height: 1;">Back</a>
@@ -219,6 +219,7 @@ input:focus, textarea:focus, select:focus{
     <!-- BEGIN PAGE LEVEL JS-->
     <!-- <script src="{{ URL::asset('asset/js/scripts/form-wizard.js') }}" type="text/javascript"></script> -->
     <!-- END PAGE LEVEL JS-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
 	   <script type="text/javascript">
        function saveData(){
          var form=new FormData(document.getElementById('add_module_form'));
@@ -230,8 +231,12 @@ input:focus, textarea:focus, select:focus{
           processData: false,
           contentType: false,
           dataType: "json",
+          beforeSend:function(){
+            jQuery('.submitData').html("<i class='fa fa-circle-o-notch fa-spin'></i> Saving");
+          },
           success: function(response) {
             console.log(response);
+            jQuery('.submitData').html("&nbsp;&nbsp; Save <i class='material-icons right'>send</i>");
             if (response.status == 1) {
               iziToast.success({
                 timeout: 5000, 

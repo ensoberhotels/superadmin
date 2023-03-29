@@ -82,4 +82,5 @@ Route::get('/clear-cache', function() {
     return "<h1 style='text-align: center;'>Cache cleared successfully !</h1>";
 });
 
-
+// Route::post('/apply-company', 'EnquiryAPIController@save');
+Route::post('/api/apply-company', 'EnquiryAPIController@save');

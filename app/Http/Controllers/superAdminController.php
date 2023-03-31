@@ -115,7 +115,7 @@ class superAdminController extends Controller
 				$request->session()->push('admin.id', $admin->id);
 				return redirect('/company-master');
 			}else{
-				return redirect('/');
+				return redirect('/')->with('Failed', 'Username or password is incorrect');
 			}
 		}catch(Exseption $e){
 			return response()->json(['error' => $e->getMessage()]);

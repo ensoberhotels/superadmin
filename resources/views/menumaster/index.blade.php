@@ -107,8 +107,8 @@ table.dataTable thead .sorting {
                            <td>{{$menus->name}}</td>
                            <td>{{$menus->sname}}</td>
                            <td>{{$menus->fname}}</td>
-                           <td>{{$menus->module}}</td>
-                           <td>{{$menus->parent_menu_id}}</td>
+                           <td>{{@getModuleName($menus->module)}}</td>
+                           <td>{{@getParentMenuName($menus->parent_menu_id)}}</td>
                            <td>{{$menus->tcode}}</td>
                            <td>{{$menus->display_order}}</td>
                            <td>{{$menus->path}}</td>

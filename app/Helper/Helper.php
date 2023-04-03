@@ -52,6 +52,8 @@ use App\ITIDayWiseItinerary;
 use App\ITIActivitiPriceList;
 use App\ITIHotelPriceList;
 use App\ITITranportPriceList;
+use App\MenuMaster;
+use App\ModuleMaster;
 
 use Illuminate\Support\Facades\Session;
 
@@ -124,4 +126,21 @@ if (!function_exists('getHotelReceivedAmount')) {
 }
 
 
+// This function use for get the module name by menus->module
+if (!function_exists('getModuleName')) {
+    function getModuleName($id) {
+        $module = ModuleMaster::where('id', $id)->first();
+		$module_name = $module->title;
+        return $module_name;
+    }
+}
+
+// This function use for get the parant menu name by menus->parent_menu_id
+if (!function_exists('getParentMenuName')) {
+    function getParentMenuName($id) {
+        $menu = MenuMaster::where('id', $id)->first();
+		$menu_name = $menu->name;
+        return $menu_name;
+    }
+}
 ?>

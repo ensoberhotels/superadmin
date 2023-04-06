@@ -14,7 +14,7 @@ use Storage;
 class grievanceController extends Controller
 {   
     public function index(){
-        $grievances=grievance::orderBy('id','DESC')->paginate(10);
+        $grievances=grievance::orderBy('id','DESC')->paginate(5);
 		return view('grievance.index',compact('grievances'));
     }
 }

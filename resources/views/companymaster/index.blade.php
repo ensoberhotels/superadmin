@@ -101,11 +101,11 @@ table.dataTable thead .sorting {
                 <tbody>
                      @php $i=1;@endphp
 				        @foreach($company as $companys)
-                        <tr>
-                           <td>{{$i}}</td>
-                           <td>{{$companys->company_name}}</td>
-                           <td><img src="{{ asset('asset/company_logo/') }}/{{$companys->logo}}" height="50" width="50" alt="tag"></td>
-                           <td>{{$companys->address}}</td>
+                        <tr id="">
+                           <td style="display: inline-block;">{{$i}} <button type="button" id="btn_copy" class="btn btn-primary btn_copy_quo" id="btn_copy_quo_{{$i}}" onclick="copyToClipboard('text_',{{$i}})" style="padding: 2px;font-size: 14px;height: 27px;">Copy</button></td>
+                           <td >{{$companys->company_name}}</td>
+                           <td><img src="{{ asset('public/asset/company_logo/') }}/{{$companys->logo}}" height="50" width="50" alt="tag"></td>
+                           <td >{{$companys->address}}</td>
                            <td>{{$companys->mobile}}</td>
                            <td>{{$companys->email}}</td>
                            <td>{{$companys->gstin}}</td>
@@ -116,6 +116,9 @@ table.dataTable thead .sorting {
                               <a href="{{URL::to('/company-master/')}}/{{$companys->id}}"><i class="fa fa-remove" style="font-size:25px;color:red"></i></a> -->
                               <a href="{{URL::to('/company-master/')}}/{{$companys->id}}" class="badge bg-warning"><i class="fa fa-edit" style="font-size:20px;"></i></a>
                               <button type="button" onclick="removeData({{$companys->id}})" name="btn_remove" id="btn_remove" class="badge bg-danger"><i class="fa fa-remove" style="font-size:20px;"></i></button>
+                           </td>
+                           <td style="display:none;" id="text_{{$i}}">
+                             <span>Username : {{$companys->email}}</span>
                            </td>
                         </tr>
                         @php $i++;@endphp
@@ -151,10 +154,14 @@ table.dataTable thead .sorting {
 @section('scripts')
 <style type="text/css">
    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-    padding-left: 3px;
+    padding-left: 0px;
     line-height: 1;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: normal;
+    width: 100px;
+    position: relative;
+    /* display: inline-block; */
+    white-space: nowrap;
 }
 .bg-danger{
     --bs-bg-opacity: 1;
@@ -223,12 +230,27 @@ table.dataTable thead .sorting {
               });
               setTimeout(function() {
                 location.reload();
-              }, 5000);
+              }, 3000);
             }else{
               iziToast.error({timeout: 5000,title: 'Required', message: response.msg,position:'topRight'});
             }
           }
         });
     }
+    function copyToClipboard(element,id) {
+        jQuery("#btn_copy_quo_"+id).text('Copying...');
+          var r = document.createRange();
+          r.selectNode(document.getElementById(element+id));
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(r);
+          document.execCommand('copy');
+          window.getSelection().removeAllRanges();
+          setTimeout(function(){
+            jQuery("#btn_copy_quo_"+id).text("Copied");
+          },500);
+          setTimeout(function(){
+            jQuery("#btn_copy_quo_"+id).text("Copy Credential");
+          },1000);
+        }
 	</script>
 @endsection

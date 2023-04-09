@@ -150,7 +150,7 @@ input:focus, textarea:focus, select:focus{
                           <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                              <label class="active">Company Email</label>
-                             <input type="email" name="company_email" id="company_email" class="form-control"> 
+                             <input type="email" name="company_email" id="company_email" class="form-control" onblur="usernameCom()"> 
                             </div>
                           </div>
                           <div class="col-sm-12 col-md-3">
@@ -191,14 +191,28 @@ input:focus, textarea:focus, select:focus{
                           <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                              <label class="active">Company Description</label>
-                             <textarea  type="text" name="company_desc" id="company_desc" class="form-control"> </textarea>
+                             <textarea  type="text" name="company_desc" id="company_desc" class="form-control" style="height: 33px;"> </textarea>
+                            </div>
+                          </div>
+                          <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                             <label class="active">Userame</label>
+                             <input type="text" name="username" id="username" class="form-control" readonly>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                             <label class="active">Password</label>
+                             <input type="password" name="password" id="password" class="form-control">
                             </div>
                           </div>
                           <div class=" col-sm-12 col-md-3" style="width: 25%;">
                             <label style="height: 25px;"></label>
                             <div>
-                              <button class="btn waves-effect waves-light left" type="button" onclick="saveData()" name="action" id="add_hotel" style="margin-right: 10px;height: 26px;padding: 4px 3px;background-color: #127623;font-size: 12px;line-height: 1;">Save
-                                <!-- <i class="material-icons right">send</i> -->
+                              <img src="/asset/images/btn_loader.gif" id="po_search_loader1" class="input_loader po_search_loader" style="display: none; position: unset;width: 25px;height: 25px;text-align: left;float: left;margin-left: -20px;margin-right: 10px;margin-top: 3px;">
+                              <button class="btn btn-success waves-effect waves-light left submitData" type="button" onclick="saveData()" name="action" id="add_hotel" style="margin-right: 10px;height: 26px;padding: 4px 3px;background-color: #127623;font-size: 12px;line-height: 1;">Submit
                               </button>
                               <a href="{{URL::to('/company-master')}}" class="btn waves-effect waves-dark " style="background-color: #bfb32b;color: #fff;height: 26px;padding: 6px 4px;font-size: 12px;line-height: 1;">Back</a>
                             </div>
@@ -209,9 +223,19 @@ input:focus, textarea:focus, select:focus{
             </div>
         </div>
     </div>
-
-
-
+<div class="modal fade" id="exampleModal" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 43%;max-height: 67%;overflow: unset;">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- <div class="modal-header">
+        <h5 class="modal-title text" id="exampleModalLabel">Company Admin Login Credential</h5>
+      </div> -->
+      <div class="modal-body" id="text"> <h5 class="modal-title text"
+      id="exampleModalLabel">Company Admin Login Credential</h5> <P
+      class="text">Username :- <span id="lusername"></span></P> <P
+      class="text">Password :- <span id="lpassword"></span></P> </div> <div
+      class="modal-footer"> <button type="button" id="btn_copy" class="btn
+      btn-primary btn_copy_quo" onclick="copyToClipboard
+      ('text')">Copy</button> </div> </div> </div> </div> </div>
 
 </div>
 <!-- END RIGHT SIDEBAR NAV -->
@@ -295,8 +319,12 @@ input:focus, textarea:focus, select:focus{
           processData: false,
           contentType: false,
           dataType: "json",
+          beforeSend:function(){
+            jQuery('#po_search_loader1').show();
+          },
           success: function(response) {
             console.log(response);
+            jQuery('#po_search_loader1').hide();
             if (response.status == 1) {
               iziToast.success({
                 timeout: 5000, 
@@ -305,7 +333,12 @@ input:focus, textarea:focus, select:focus{
                 message: response.msg,
                 position:'topRight'
               });
+              // jQuery('#lusername').text(response.data.user);
+              // jQuery('#lpassword').text(response.data.password);
               setTimeout(function() {
+                  // $('#exampleModal').modal();
+                  // $('#exampleModal').css('display','block');
+                  // $('#exampleModal').css('opacity','1');
                 location.href='/company-master';
               }, 5000);
             }else{
@@ -313,6 +346,28 @@ input:focus, textarea:focus, select:focus{
             }
           }
         });
+      }
+      function usernameCom(){
+        var email=jQuery('#company_email').val();
+        jQuery('#username').val(email);
       } 
+      function copyToClipboard(element) {
+        jQuery(".btn_copy_quo").text('Copying...');
+          var r = document.createRange();
+          r.selectNode(document.getElementById(element));
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(r);
+          document.execCommand('copy');
+          window.getSelection().removeAllRanges();
+          setTimeout(function(){
+            jQuery(".btn_copy_quo").text("Copied");
+          },500);
+          setTimeout(function(){
+            jQuery(".btn_copy_quo").text("Copy Credential");
+          },1000);
+          setTimeout(function(){
+            location.href='/company-master';
+          },5000);
+        }
      </script>
 @endsection

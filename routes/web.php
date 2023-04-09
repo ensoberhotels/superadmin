@@ -40,6 +40,7 @@ Route::get('/viewhotel/{id}', 'CommanController@viewHotel');
 // Hotel
 
 Route::get('/', 'superAdminController@index');
+Route::get('/logout', 'superAdminController@logout');
 Route::get('/forget-password', 'superAdminController@forgetPassword');
 
 Route::get('/reset-password/{id}', 'superAdminController@resetPassword');
@@ -81,4 +82,8 @@ Route::get('/clear-cache', function() {
     return "<h1 style='text-align: center;'>Cache cleared successfully !</h1>";
 });
 
+// Route::post('/apply-company', 'EnquiryAPIController@save');
+Route::post('/api/apply-company', 'EnquiryAPIController@save');
 
+//  grievance view superadmin
+Route::get('/grievance', 'grievanceController@index');

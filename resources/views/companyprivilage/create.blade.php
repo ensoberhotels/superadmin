@@ -113,7 +113,7 @@ input:focus, textarea:focus, select:focus{
               <!-- Linear Stepper -->	  
               <div class="row">
                 <div class="col s12">
-                  <div class="card" style="height: 478px;">
+                  <div class="card">
                     <div class="card-content">
                       <div class="card-header">
                           <h4 class="card-title">Create Company Privilege</h4>
@@ -147,10 +147,6 @@ input:focus, textarea:focus, select:focus{
                               <label class="active">Module</label>
                               <div id="module_body">
                                   <select class="form-control" id="module" name="module[]" multiple >
-                                  <option value="">Select Module</option>
-                                  @foreach($module as $module)
-                                    <option value="{{$module->id}}">{{$module->title}}</option>
-                                  @endforeach
                                 </select>
                               </div>
                               
@@ -276,6 +272,30 @@ input:focus, textarea:focus, select:focus{
      
 	   <script type="text/javascript">
        function saveData(){
+        var company_id = jQuery('#company_id').val();
+        var login_typ  = jQuery('#login_typ').val();
+        var modulee    = jQuery('#module').val();
+        if (company_id=='') {
+          jQuery('#company_id').css('border','1px solid red');
+          return false;
+        }
+        else{
+          jQuery('#company_id').css('border', '1px solid green');
+        }
+        if (login_typ=='') {
+          jQuery('#login_typ').css('border','1px solid red');
+          return false;
+        }
+        else{
+          jQuery('#login_typ').css('border', '1px solid green');
+        }
+        if (modulee=='') {
+          jQuery('#module').css('border','1px solid red');
+          return false;
+        }
+        else{
+          jQuery('#module').css('border', '1px solid green');
+        }
          var form=new FormData(document.getElementById('add_company_form'));
          jQuery('#po_search_loader1').show();
          console.log(form);
@@ -301,12 +321,37 @@ input:focus, textarea:focus, select:focus{
                 location.href='/company-privilege';
               }, 5000);
             }else{
+              jQuery('#po_search_loader1').hide();
               iziToast.error({timeout: 5000,title: 'Required', message: response.msg,position:'topRight'});
             }
           }
         });
       } 
       function getTableData(){
+        var company_id = jQuery('#company_id').val();
+        var login_typ  = jQuery('#login_typ').val();
+        var modulee    = jQuery('#module').val();
+        if (company_id=='') {
+          jQuery('#company_id').css('border','1px solid red');
+          return false;
+        }
+        else{
+          jQuery('#company_id').css('border', '1px solid green');
+        }
+        if (login_typ=='') {
+          jQuery('#login_typ').css('border','1px solid red');
+          return false;
+        }
+        else{
+          jQuery('#login_typ').css('border', '1px solid green');
+        }
+        if (modulee=='') {
+          jQuery('#module').css('border','1px solid red');
+          return false;
+        }
+        else{
+          jQuery('#module').css('border', '1px solid green');
+        }
         jQuery('#po_search_loader').show();
         var modules=jQuery('#module').val();
         jQuery.ajax({

@@ -57,10 +57,10 @@ class CompanyMasterController extends Controller
 		try{
 			$validator = \Validator::make($request->all(), [ 
             	'company_name'=>'required',
-            	'company_gstin'=>'required',
+            	// 'company_gstin'=>'required',
             	'company_type'=>'required',
             	'company_mobile'=>'required',
-            	'company_email'=>'required',
+            	'company_email'=>'required|email|unique:sua_company_master,email',
             ]);
             if ($validator->fails()) { 
                 return response()->json(['status' => 0, 'msg' => 'Error: '.$validator->errors()->first(), 'data' => '']);
@@ -71,31 +71,47 @@ class CompanyMasterController extends Controller
                 $destinationPath = public_path('/asset/company_logo');
                 $request->file('company_logo')->move($destinationPath, $name);
              }
-            $post=[
-            	'company_name'	=>	$request->company_name,
-            	'gstin'			=>	$request->company_gstin,
-            	'company_type'	=>	$request->company_type,
-            	'mobile'		=>	$request->company_mobile,
-            	'email'			=>	$request->company_email,
-            	'website'		=>	$request->company_web,
-            	'description'	=>	$request->company_desc,
-            	'logo'			=>	(isset($name) ? $name : ''),
-            	'address'		=>	$request->company_add,
-            	'no_of_user'	=> $request->no_of_user
-            ];
+            	$CompanyMaster=new CompanyMaster();
+            	$CompanyMaster->company_name	=	$request->company_name;
+					$CompanyMaster->gstin			=	$request->company_gstin;
+					$CompanyMaster->company_type	=	$request->company_type;
+					$CompanyMaster->mobile		=	$request->company_mobile;
+					$CompanyMaster->email			=	$request->company_email;
+					$CompanyMaster->website		=	$request->company_web;
+					$CompanyMaster->description	=	$request->company_desc;
+					$CompanyMaster->logo			=	(isset($name) ? $name : '');
+					$CompanyMaster->address		=	$request->company_add;
+					$CompanyMaster->no_of_user	= $request->no_of_user;
+            	$CompanyMaster->save();
 
             //dd($post);
-            $save=CompanyMaster::insert($post);
+            //::insert($post);
             $data=[
-            	'user'	=>	$request->company_email,
-            	'password'		=>	'123456',
+            	'user'	=>	$request->username,
+            	'password'		=>	$request->password,
             	'user_type'=>'CA',
+            	'comp_id'=>$CompanyMaster->id
             ];
+            $message= '<table>
+            	<tr>
+            		<td>Username</td>
+            		<td>'.$request->username.'</td>
+            	</tr>
+            	<tr>
+            		<td>Password</td>
+            		<td>'.$request->password.'</td>
+            	</tr>
+            </table>';
+            $from =$request->username;
+            $to =$request->username;
+            $subject = 'Your Login Credential';
+            $pdf_name='';$ccemail='';
             $sav=Admin::insert($data);
-            if($save){
+            $this->send($message, $subject, $from, $to, $pdf_name='', $ccemail='');
+            if($sav){
             	\DB::commit();
             	//dd($save);
-            	return response()->json(['status' => 1, 'msg' => 'Added Successfully', 'data' => '']);
+            	return response()->json(['status' => 1, 'msg' => 'Added Successfully', 'data' => $data]);
             }else{
             	\DB::rollback();
             	return response()->json(['status' => 0, 'msg' => 'Data not save!', 'data' => '']);
@@ -116,10 +132,10 @@ class CompanyMasterController extends Controller
 		try{
 			$validator = \Validator::make($request->all(), [ 
             	'company_name'=>'required',
-            	'company_gstin'=>'required',
+            	//'company_gstin'=>'required',
             	'company_type'=>'required',
             	'company_mobile'=>'required',
-            	'company_email'=>'required',
+            	'company_email'=>'required|email|unique:sua_company_master,email',
             ]);
             if ($validator->fails()) { 
                 return response()->json(['status' => 0, 'msg' => 'Error: '.$validator->errors()->first(), 'data' => '']);
@@ -147,12 +163,12 @@ class CompanyMasterController extends Controller
             ];
             //dd($post);
             $save=CompanyMaster::where('id',$request->id)->update($post);
-            $data=[
-            	'user'	=>	$request->company_email,
-            	'password'		=>	'123456',
-            	'user_type'=>'CA'
-            ];
-            $sav=Admin::insert($data);
+            // $data=[
+            // 	'user'	=>	$request->company_email,
+            // 	'password'		=>	'123456',
+            // 	'user_type'=>'CA'
+            // ];
+            // $sav=Admin::insert($data);
             if($save){
             	\DB::commit();
             	//dd($save);

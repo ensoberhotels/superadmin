@@ -134,7 +134,7 @@ input:focus, textarea:focus, select:focus{
                             <div class="form-group">
                              <label class="active">Company Logo</label>
                              <input type="file" name="company_logo" value="{{$record->logo}}" id="company_logo" class="form-control">
-                             <img src="{{ asset('asset/company_logo/') }}/{{$record->logo}}" height="50" width="50" alt="tag"> 
+                             <img src="{{ asset('public/asset/company_logo/') }}/{{$record->logo}}" height="50" width="50" alt="tag"> 
                             </div>
                           </div>
 				                  <div class="col-sm-12 col-md-3">
@@ -154,7 +154,7 @@ input:focus, textarea:focus, select:focus{
                           <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                              <label class="active">Company Email</label>
-                             <input type="email" value="{{$record->email}}" name="company_email" id="company_email" class="form-control"> 
+                             <input type="email" value="{{$record->email}}" name="company_email" onblur="usernameCom()" id="company_email" class="form-control"> 
                             </div>
                           </div>
                           <div class="col-sm-12 col-md-3">
@@ -200,9 +200,24 @@ input:focus, textarea:focus, select:focus{
                              <input type="hidden" name="id" value="{{@$record->id}}" id="id" class="form-control"> 
                             </div>
                           </div>
+                          <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                             <label class="active">Userame</label>
+                             <input type="text" name="username" value="{{$record->email}}" id="username" class="form-control" readonly>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                             <label class="active">Password</label>
+                             <input type="password" name="password" id="password" class="form-control">
+                            </div>
+                          </div>
                           <div class=" col-sm-12 col-md-3" style="width: 25%;">
                             <label style="height: 25px;"></label>
                             <div>
+                              <img src="/asset/images/btn_loader.gif" id="po_search_loader1" class="input_loader po_search_loader" style="display: none; position: unset;width: 25px;height: 25px;text-align: left;float: left;margin-left: -20px;margin-right: 10px;margin-top: 3px;">
                               <button class="btn waves-effect waves-light left" type="button" onclick="updateData()" name="action" id="add_hotel" style="margin-right: 10px;height: 26px;padding: 4px 3px;background-color: #127623;font-size: 12px;line-height: 1;">Update</button>
                             <a href="{{URL::to('/company-master')}}" class="btn waves-effect waves-dark " style="background-color: #bfb32b;color: #fff;height: 26px;padding: 6px 4px;font-size: 12px;line-height: 1;">Back</a>
                           </div>
@@ -295,7 +310,11 @@ input:focus, textarea:focus, select:focus{
           processData: false,
           contentType: false,
           dataType: "json",
+          beforeSend:function(){
+            jQuery('#po_search_loader1').show();
+          },
           success: function(response) {
+            jQuery('#po_search_loader1').hide();
             console.log(response);
             if (response.status == 1) {
               iziToast.success({
@@ -313,6 +332,10 @@ input:focus, textarea:focus, select:focus{
             }
           }
         });
+      } 
+      function usernameCom(){
+        var email=jQuery('#company_email').val();
+        jQuery('#username').val(email);
       } 
      </script>
 @endsection

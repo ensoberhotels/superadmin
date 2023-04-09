@@ -32,17 +32,19 @@ class Controller extends BaseController
 	
 	//Send Email
 	public function send($message, $subject, $from, $to, $pdf_name='', $ccemail=''){ 
+		//dd($message, $subject, $from, $to, $pdf_name, $ccemail);
+		require base_path("vendor/autoload.php");
 		$text             = $message;
         $mail             = new PHPMailer\PHPMailer(); // create a n
-        //$mail->SMTPDebug  = 1; // debugging: 1 = errors and messages, 2 = messages only
+        $mail->SMTPDebug  = 0; // debugging: 1 = errors and messages, 2 = messages only
         $mail->SMTPAuth   = true; // authentication enabled
         $mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
         $mail->Host       = "smtp.gmail.com";
-        $mail->Port       = 465; // or 587
+        $mail->Port       = 587; // or 587 465
+        $mail->Username = "info@rstechnosoft.com"; 
+        $mail->Password = "bjylkizlpfmeujtn"; 
+        $mail->SetFrom('info@rstechnosoft.com', 'Ensober');
         $mail->IsHTML(true);
-        $mail->Username = "Sales@ensoberhotels.com"; 
-        $mail->Password = "new4321raj#"; 
-        $mail->SetFrom($from, 'Ensober');
         $mail->Subject = $subject;
         $mail->Body    = $text;
         $mail->AddAddress($to, "");
@@ -53,7 +55,9 @@ class Controller extends BaseController
 			//$mail->addAttachment('storage/app/quotations/'.$pdf_name); 
 			$mail->addAttachment($pdf_name); 
 		}
+
         if ($mail->Send()) {
+        	//dd($mail);
             return 'Email Sent Successfully';
         } else {
             return 'Failed to Send Email';

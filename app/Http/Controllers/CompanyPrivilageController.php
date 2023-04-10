@@ -49,7 +49,8 @@ class CompanyPrivilageController extends Controller
 	
 
 	public function index(){
-		$comp_priv=CompanyPrivilage::select('company_id','module_id','login_type')->orderBy('id','DESC')->with('getCompany')->with('getModule')->distinct('module_id')->paginate(10);
+		//$comp_priv=CompanyPrivilage::select('company_id','module_id','login_type')->orderBy('id','DESC')->with('getCompany')->with('getModule')->distinct('company_id')->get();
+		$comp_priv=CompanyPrivilage::select('company_id','login_type')->orderBy('id','DESC')->with('getCompany')->distinct('company_id')->get();
 		//dd($comp_priv);
 		return view('companyprivilage.index',compact('comp_priv'));
 	}

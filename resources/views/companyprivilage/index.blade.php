@@ -88,7 +88,6 @@ table.dataTable thead .sorting {
                   <tr>
                       <th>Sr. No.</th>
                       <th>Company Name</th>
-                      <th>Module Name</th>
                       <th>Login Type</th>
                       <th class="no-sort">Action</th>
                   </tr>
@@ -99,7 +98,6 @@ table.dataTable thead .sorting {
                     <tr>
                       <td>{{$i}}</td>
                       <td>{{@$comp_privs->getCompany->company_name}}</td>
-                      <td>{{@$comp_privs->getModule->title}}</td>
                       <td style="text-align: center;">
                         @if($comp_privs->login_type == 'A')
                           <span class="badge bg-success" style="border-radius: 8px;font-size: 13px;">Admin</span>
@@ -116,7 +114,7 @@ table.dataTable thead .sorting {
                   @endforeach
                 </tbody>   
               </table>
-              <div class="pagination">{{$comp_priv->links()}}</div>
+             
             </div>
           </div>
         </div>

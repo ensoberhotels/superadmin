@@ -33,4 +33,4 @@ Route::get('/sendcorfirmation/{order_id}', 'TempAPIController@sendCofirmationEma
 
 // Website Payment
 Route::post('/savepayment', 'TempAPIController@saveOrderPayment');
-// Route::post('/api/apply-company', 'EnquiryAPIController@save');
+Route::post('/apply-company', 'EnquiryAPIController@save');

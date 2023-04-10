@@ -83,7 +83,9 @@ Route::get('/clear-cache', function() {
 });
 
 // Route::post('/apply-company', 'EnquiryAPIController@save');
-Route::post('/api/apply-company', 'EnquiryAPIController@save');
+
+//Route::post('/api/apply-company', 'EnquiryAPIController@save');
 
 //  grievance view superadmin
 Route::get('/grievance', 'grievanceController@index');
+

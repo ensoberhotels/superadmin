@@ -21,6 +21,40 @@ table.dataTable thead .sorting {
     width: 20%;
     /* padding-left: 26px; */
 } */
+.select-dropdown,.dropdown-trigger{
+    display: none;
+  }
+  .select-wrapper .caret {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto 0;
+    fill: rgba(0, 0, 0, .87);
+    display: none;
+}
+.caret {
+    display: none;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 4px dashed;
+    border-top: 4px solid\9;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+.select-wrapper .select-dropdown {
+    display: none !important;
+}
+ label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: normal;
+    font-size: 13px;
+}
    </style>
 @endsection
 
@@ -80,6 +114,49 @@ table.dataTable thead .sorting {
 					<a href="{{URL::to('/menu-master/create')}}" class="mb-6 btn waves-effect waves-light gradient-45deg-green-teal gradient-shadow">ADD</a>
 				</div>
 			</div>
+      <form action="{{ URL::to('/menu-master') }}">
+        @csrf
+        <div class="row">
+        <div class="col s3">
+          <div class="form-group">
+            <label>Login Type</label>
+            <select class="form-control" id="login_type" name="login_type">
+              <option value="">Select Type</option>
+              <option value="A" @if($login_type=='A') selected @endif>Admin</option>
+              <option value="O" @if($login_type=='O') selected @endif>Operator</option>
+            </select>
+          </div>        
+        </div>
+        <div class="col s3">
+          <div class="form-group">
+            <label class="active">Module</label>
+            <select class="form-control" id="module" name="module">
+              <option value="">Select Module</option>
+              @foreach($module as $module)
+                <option value="{{$module->id}}" @if($modules==$module->id) selected @endif>{{$module->title}}</option>
+              @endforeach     
+            </select>
+          </div>
+        </div>
+        <div class="col s3">
+          <div class="form-group">
+            <label class="active">Menu</label>
+            <select class="form-control" id="file" name="file">
+              <option value="">Select Menu</option>
+              @foreach($file as $file)
+                <option value="{{$file->id}}" @if($files==$file->id) selected @endif>{{$file->name}}</option>
+              @endforeach     
+            </select>
+          </div>
+        </div>
+        <div class="col s3">
+           <label></label>
+          <button type="submit" name="search" value="1" class="btn waves-effect waves-light" style="margin-right: 10px;height: 26px;padding: 4px 4px 4px 4px;background-color: #1cd106;font-size: 12px;line-height: 1;margin-top: 27px;">Search</button>
+          <button type="submit" name="reset" value="0" class="btn waves-effect waves-light" style="margin-right: 10px;height: 26px;padding: 4px 4px 4px 4px;background-color:#da346c;font-size: 12px;line-height: 1;margin-top: 27px;">Reset</button>
+        </div>
+      </div>
+      </form>
+      
           <div class="row">
             <div class="col s12">
                <div class="table-responsive">
@@ -91,6 +168,7 @@ table.dataTable thead .sorting {
                       <th>Short Name</th>
                       <th>Full Name</th>
                       <th>Module</th>
+                      <th>Login Type</th>
                       <th>Parent Menu</th>
                       <th>T-Code</th>
                       <th>Display Order</th>
@@ -108,6 +186,11 @@ table.dataTable thead .sorting {
                            <td>{{$menus->sname}}</td>
                            <td>{{$menus->fname}}</td>
                            <td>{{@getModuleName($menus->module)}}</td>
+                           @if($menus->login_type == 'A')
+                            <td>Admin</td>
+                          @else
+                           <td>Operator</td>
+                           @endif
                            <td>{{@getParentMenuName($menus->parent_menu_id)}}</td>
                            <td>{{$menus->tcode}}</td>
                            <td>{{$menus->display_order}}</td>

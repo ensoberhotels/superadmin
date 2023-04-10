@@ -171,7 +171,7 @@ class CompanyPrivilageController extends Controller
 		}
 	}
 	public function edit($id){
-		$record=CompanyPrivilage::where('module_id',$id)->first();
+		$record=CompanyPrivilage::where('company_id',$id)->first();
 		$company=CompanyMaster::get();
 		$module=ModuleMaster::get();
 		return view('companyprivilage.update',compact('company','module','record'));

@@ -151,7 +151,8 @@ table.dataTable thead .sorting {
         </div>
         <div class="col s3">
            <label></label>
-          <button type="submit" class="btn waves-effect waves-light" style="margin-right: 10px;height: 26px;padding: 4px 4px 4px 4px;background-color: #1cd106;font-size: 12px;line-height: 1;margin-top: 27px;">Search</button>
+          <button type="submit" name="search" value="1" class="btn waves-effect waves-light" style="margin-right: 10px;height: 26px;padding: 4px 4px 4px 4px;background-color: #1cd106;font-size: 12px;line-height: 1;margin-top: 27px;">Search</button>
+          <button type="submit" name="reset" value="0" class="btn waves-effect waves-light" style="margin-right: 10px;height: 26px;padding: 4px 4px 4px 4px;background-color:#da346c;font-size: 12px;line-height: 1;margin-top: 27px;">Reset</button>
         </div>
       </div>
       </form>
@@ -167,6 +168,7 @@ table.dataTable thead .sorting {
                       <th>Short Name</th>
                       <th>Full Name</th>
                       <th>Module</th>
+                      <th>Login Type</th>
                       <th>Parent Menu</th>
                       <th>T-Code</th>
                       <th>Display Order</th>
@@ -184,6 +186,11 @@ table.dataTable thead .sorting {
                            <td>{{$menus->sname}}</td>
                            <td>{{$menus->fname}}</td>
                            <td>{{@getModuleName($menus->module)}}</td>
+                           @if($menus->login_type == 'A')
+                            <td>Admin</td>
+                          @else
+                           <td>Operator</td>
+                           @endif
                            <td>{{@getParentMenuName($menus->parent_menu_id)}}</td>
                            <td>{{$menus->tcode}}</td>
                            <td>{{$menus->display_order}}</td>

@@ -45,55 +45,68 @@ use Illuminate\Support\Facades\Session;
 class MenuMasterController extends Controller
 {
 	public function index(Request $request){
-		if($request->login_type !='' || $request->module !='' || $request->file !=''){
-			if($request->login_type !=''){
-				$login_type=$request->login_type;
+		if($request->search == 1){
+			if($request->login_type !='' || $request->module !='' || $request->file !=''){
+				if($request->login_type !=''){
+					$login_type=$request->login_type;
+					$modules='';
+					$files='';
+					$menu=MenuMaster::where('login_type',$request->login_type)->orderBy('id','DESC')->paginate(10);
+				}
+				if($request->module !=''){
+					$login_type='';
+					$modules=$request->module;
+					$files='';
+					$menu=MenuMaster::where('module',$request->module)->orderBy('id','DESC')->paginate(10);
+				}
+				if($request->file !=''){
+					$login_type='';
+					$modules='';
+					$files=$request->file;
+					$menu=MenuMaster::where('id',$request->file)->orderBy('id','DESC')->paginate(10);
+				}
+				if($request->file !='' && $request->login_type !=''){
+					$login_type=$request->login_type;
+					$modules='';
+					$files=$request->file;
+					$menu=MenuMaster::where('id',$request->file)->where('login_type',$request->login_type)->orderBy('id','DESC')->paginate(10);
+				}
+				if($request->file !='' && $request->module !=''){
+					$login_type='';
+					$modules=$request->module;
+					$files=$request->file;
+					$menu=MenuMaster::where('id',$request->file)->where('module',$request->module)->orderBy('id','DESC')->paginate(10);
+				}
+				if($request->login_type !='' && $request->module !=''){
+					$login_type=$request->login_type;
+					$modules=$request->module;
+					$files='';
+					$menu=MenuMaster::where('login_type',$request->login_type)->where('module',$request->module)->orderBy('id','DESC')->paginate(10);
+				}
+				if($request->file !='' && $request->login_type !='' && $request->module !=''){
+					$login_type=$request->login_type;
+					$modules=$request->module;
+					$files=$request->file;
+					$menu=MenuMaster::where('id',$request->file)->where('login_type',$request->login_type)->where('module',$request->module)->orderBy('id','DESC')->paginate(10);
+				}
+			}else{
+				$login_type='';
 				$modules='';
 				$files='';
-				$menu=MenuMaster::where('login_type',$request->login_type)->orderBy('id','DESC')->paginate(10);
+				$menu=MenuMaster::orderBy('id','DESC')->paginate(10);
 			}
-			if($request->module !=''){
-				$login_type='';
-				$modules=$request->module;
-				$files='';
-				$menu=MenuMaster::where('module',$request->module)->orderBy('id','DESC')->paginate(10);
-			}
-			if($request->file !=''){
-				$login_type='';
-				$modules='';
-				$files=$request->file;
-				$menu=MenuMaster::where('id',$request->file)->orderBy('id','DESC')->paginate(10);
-			}
-			if($request->file !='' && $request->login_type !=''){
-				$login_type=$request->login_type;
-				$modules='';
-				$files=$request->file;
-				$menu=MenuMaster::where('id',$request->file)->where('login_type',$request->login_type)->orderBy('id','DESC')->paginate(10);
-			}
-			if($request->file !='' && $request->module !=''){
-				$login_type='';
-				$modules=$request->module;
-				$files=$request->file;
-				$menu=MenuMaster::where('id',$request->file)->where('module',$request->module)->orderBy('id','DESC')->paginate(10);
-			}
-			if($request->login_type !='' && $request->module !=''){
-				$login_type=$request->login_type;
-				$modules=$request->module;
-				$files='';
-				$menu=MenuMaster::where('login_type',$request->login_type)->where('module',$request->module)->orderBy('id','DESC')->paginate(10);
-			}
-			if($request->file !='' && $request->login_type !='' && $request->module !=''){
-				$login_type=$request->login_type;
-				$modules=$request->module;
-				$files=$request->file;
-				$menu=MenuMaster::where('id',$request->file)->where('login_type',$request->login_type)->where('module',$request->module)->orderBy('id','DESC')->paginate(10);
-			}
+		}else if($request->reset == 0){
+			$login_type='';
+			$modules='';
+			$files='';
+			$menu=MenuMaster::orderBy('id','DESC')->paginate(10);
 		}else{
 			$login_type='';
 			$modules='';
 			$files='';
 			$menu=MenuMaster::orderBy('id','DESC')->paginate(10);
 		}
+		
 		
 		$module=ModuleMaster::where('status','Active')->get();
 		$file=MenuMaster::where('status','ACTIVE')->get();

@@ -106,7 +106,7 @@ table.dataTable thead .sorting {
                         @endif
                       </td>
                       <td style="display: inline-flex;text-align: center;">
-                        <a href="{{URL::to('/company-privilege/')}}/{{$comp_privs->module_id}}" class="badge bg-warning"><i class="fa fa-edit" style="font-size:20px;"></i></a>
+                        <a href="{{URL::to('/company-privilege/')}}/{{$comp_privs->company_id}}" class="badge bg-warning"><i class="fa fa-edit" style="font-size:20px;"></i></a>
                         <button type="button" onclick="removeData({{$comp_privs->module_id}})" name="btn_remove" id="btn_remove" class="badge bg-danger"><i class="fa fa-remove" style="font-size:20px;"></i></button>
                      </td>
                     </tr>

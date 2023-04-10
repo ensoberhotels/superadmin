@@ -73,6 +73,9 @@ input:focus, textarea:focus, select:focus{
     font-weight: normal;
     font-size: 13px;
 }
+.multiselect-wrapper ul{
+  max-height: 95px !important;
+}
     </style>
 @endsection
 

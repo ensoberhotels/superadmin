@@ -155,7 +155,7 @@ input:focus, textarea:focus, select:focus{
                             <div class="form-group">
                              <label class="active">Parent Menu</label>
                              <select class="form-control" id="parent_menu" name="parent_menu">
-                              <option value=""></option>
+                              <option value="0"></option>
                               @foreach($parent_menu as $parent_menus)
                                 <option value="{{$parent_menus->id}}">{{$parent_menus->name}}</option>
                               @endforeach
@@ -223,6 +223,7 @@ input:focus, textarea:focus, select:focus{
                           <div class=" col-sm-12 col-md-3">
                             <label class="active" style="height: 19px;"></label>
                             <div>
+                              <img src="/asset/images/btn_loader.gif" id="po_search_loader1" class="input_loader po_search_loader" style="display: none; position: unset;width: 25px;height: 25px;text-align: left;float: left;margin-left: -20px;margin-right: 10px;margin-top: 3px;">
                               <button class="btn waves-effect waves-light left" type="button" onclick="saveData()" name="action" id="add_hotel" style="margin-right: 10px;height: 26px;padding: 0px 0px;font-size: 12px;line-height: 1;">Save
                                 <!-- <i class="material-icons right">send</i> -->
                               </button>
@@ -308,8 +309,12 @@ input:focus, textarea:focus, select:focus{
           processData: false,
           contentType: false,
           dataType: "json",
+          beforeSend:function(){
+            jQuery('#po_search_loader1').show();
+          },
           success: function(response) {
             console.log(response);
+            jQuery('#po_search_loader1').hide();
             if (response.status == 1) {
               iziToast.success({
                 timeout: 5000, 

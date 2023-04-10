@@ -211,8 +211,8 @@ input:focus, textarea:focus, select:focus{
                           <div class=" col-sm-12 col-md-3" style="width: 25%;">
                             <label style="height: 25px;"></label>
                             <div>
+                              <img src="/asset/images/btn_loader.gif" id="po_search_loader1" class="input_loader po_search_loader" style="display: none; position: unset;width: 25px;height: 25px;text-align: left;float: left;margin-left: -20px;margin-right: 10px;margin-top: 3px;">
                               <button class="btn btn-success waves-effect waves-light left submitData" type="button" onclick="saveData()" name="action" id="add_hotel" style="margin-right: 10px;height: 26px;padding: 4px 3px;background-color: #127623;font-size: 12px;line-height: 1;">Submit
-                                <!-- <i class="material-icons right">send</i> -->
                               </button>
                               <a href="{{URL::to('/company-master')}}" class="btn waves-effect waves-dark " style="background-color: #bfb32b;color: #fff;height: 26px;padding: 6px 4px;font-size: 12px;line-height: 1;">Back</a>
                             </div>
@@ -308,7 +308,6 @@ input:focus, textarea:focus, select:focus{
     <!-- BEGIN PAGE LEVEL JS-->
     <!-- <script src="{{ URL::asset('asset/js/scripts/form-wizard.js') }}" type="text/javascript"></script> -->
     <!-- END PAGE LEVEL JS-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	   <script type="text/javascript">
        function saveData(){
          var form=new FormData(document.getElementById('add_company_form'));
@@ -321,13 +320,12 @@ input:focus, textarea:focus, select:focus{
           contentType: false,
           dataType: "json",
           beforeSend:function(){
-            jQuery('.submitData').html("<i class='fa fa-circle-o-notch fa-spin' style='color: white;'></i> Submitting");
+            jQuery('#po_search_loader1').show();
           },
           success: function(response) {
             console.log(response);
-            jQuery('.submitData').html("Submit");
+            jQuery('#po_search_loader1').hide();
             if (response.status == 1) {
-              
               iziToast.success({
                 timeout: 5000, 
                 icon: 'fa fa-chrome', 

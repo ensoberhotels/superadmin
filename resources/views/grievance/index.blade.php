@@ -21,40 +21,6 @@ table.dataTable thead .sorting {
     width: 20%;
     /* padding-left: 26px; */
 } */
-.select-dropdown,.dropdown-trigger{
-    display: none;
-  }
-  .select-wrapper .caret {
-    position: absolute;
-    z-index: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto 0;
-    fill: rgba(0, 0, 0, .87);
-    display: none;
-}
-.caret {
-    display: none;
-    width: 0;
-    height: 0;
-    margin-left: 2px;
-    vertical-align: middle;
-    border-top: 4px dashed;
-    border-top: 4px solid\9;
-    border-right: 4px solid transparent;
-    border-left: 4px solid transparent;
-}
-.select-wrapper .select-dropdown {
-    display: none !important;
-}
- label {
-    display: inline-block;
-    max-width: 100%;
-    margin-bottom: 5px;
-    font-weight: normal;
-    font-size: 13px;
-}
    </style>
 @endsection
 
@@ -107,103 +73,37 @@ table.dataTable thead .sorting {
         <div class="card-content">
 			<div class="row">
 				<div class="col s6">
-					<h4 class="card-title">Menu Master</h4>
-				</div>
-				<div class="col s2 m6 l6" style="text-align: right;">
-					<!-- <a class="mb-6 btn waves-effect waves-light gradient-45deg-purple-deep-orange gradient-shadow">Delete</a> -->
-					<a href="{{URL::to('/menu-master/create')}}" class="mb-6 btn waves-effect waves-light gradient-45deg-green-teal gradient-shadow">ADD</a>
+					<h4 class="card-title">Grievance Details</h4>
 				</div>
 			</div>
-      <form action="{{ URL::to('/menu-master') }}">
-        @csrf
-        <div class="row">
-        <div class="col s3">
-          <div class="form-group">
-            <label>Login Type</label>
-            <select class="form-control" id="login_type" name="login_type">
-              <option value="">Select Type</option>
-              <option value="A" @if($login_type=='A') selected @endif>Admin</option>
-              <option value="O" @if($login_type=='O') selected @endif>Operator</option>
-            </select>
-          </div>        
-        </div>
-        <div class="col s3">
-          <div class="form-group">
-            <label class="active">Module</label>
-            <select class="form-control" id="module" name="module">
-              <option value="">Select Module</option>
-              @foreach($module as $module)
-                <option value="{{$module->id}}" @if($modules==$module->id) selected @endif>{{$module->title}}</option>
-              @endforeach     
-            </select>
-          </div>
-        </div>
-        <div class="col s3">
-          <div class="form-group">
-            <label class="active">Menu</label>
-            <select class="form-control" id="file" name="file">
-              <option value="">Select Menu</option>
-              @foreach($file as $file)
-                <option value="{{$file->id}}" @if($files==$file->id) selected @endif>{{$file->name}}</option>
-              @endforeach     
-            </select>
-          </div>
-        </div>
-        <div class="col s3">
-           <label></label>
-          <button type="submit" class="btn waves-effect waves-light" style="margin-right: 10px;height: 26px;padding: 4px 4px 4px 4px;background-color: #1cd106;font-size: 12px;line-height: 1;margin-top: 27px;">Search</button>
-        </div>
-      </div>
-      </form>
-      
           <div class="row">
             <div class="col s12">
                <div class="table-responsive">
-              <table id="multi-select" class="table table-hover">
-                <thead>
-                  <tr>
-                      <th>Sr. No.</th>
-                      <th>Name</th>
-                      <th>Short Name</th>
-                      <th>Full Name</th>
-                      <th>Module</th>
-                      <th>Parent Menu</th>
-                      <th>T-Code</th>
-                      <th>Display Order</th>
-                      <th>Path</th>
-                      <th>Status</th>
-                      <th class="no-sort">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                     @php $i=1;@endphp
-				        @foreach($menu as $menus)
-                        <tr>
-                           <td>{{$i}}</td>
-                           <td>{{$menus->name}}</td>
-                           <td>{{$menus->sname}}</td>
-                           <td>{{$menus->fname}}</td>
-                           <td>{{@getModuleName($menus->module)}}</td>
-                           <td>{{@getParentMenuName($menus->parent_menu_id)}}</td>
-                           <td>{{$menus->tcode}}</td>
-                           <td>{{$menus->display_order}}</td>
-                           <td>{{$menus->path}}</td>
-                           <td style="text-align: center;">
-                            @if($menus->status == 'ACTIVE')
-                              <span class="badge bg-success" style="border-radius: 8px;cursor: pointer;">{{$menus->status}}</span>
-                            @else
-                              <span class="badge bg-danger" style="border-radius: 8px;cursor: pointer;">{{$menus->status}}</span>
-                            @endif
-                            </td>
-                           <td style="display: inline-flex;text-align: center;">
-                              <a href="{{URL::to('/menu-master/')}}/{{$menus->id}}" class="badge bg-warning"><i class="fa fa-edit" style="font-size:20px;"></i></a>
-                              <button type="button" onclick="removeData({{$menus->id}})" name="btn_remove" id="btn_remove" class="badge bg-danger"><i class="fa fa-remove" style="font-size:20px;"></i></button>
-                           </td>
-                        </tr>
+                <table id="multi-select" class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Sr. No.</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>From</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @php $i=1;@endphp
+                        @foreach($grievances as $grievance)
+                            <tr id="">
+                                <td style="display: inline-block;">{{$i}}</td>
+                                <td >{{$grievance->title}}</td>
+                                <td >{{$grievance->description}}</td>
+                                <td><a href="{{ asset('https://adminoperator.ensober.com/public/asset/images/grievance') }}/{{$grievance->attachment}}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('https://adminoperator.ensober.com/public/asset/images/grievance') }}/{{$grievance->attachment}}" height="50" width="50" alt="attachments"></td></a>
+                                <td>{{$grievance->from_name}}</td>
+                            </tr>
                         @php $i++;@endphp
-                    @endforeach
-              </table>
-              <div class="pagination">{{$menu->links()}}</div>
+                        @endforeach
+                    </tbody>
+                </table>
+              <div class="pagination">{{$grievances->links()}}</div>
             </div>
           </div>
         </div>

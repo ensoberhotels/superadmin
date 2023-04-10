@@ -217,6 +217,7 @@ input:focus, textarea:focus, select:focus{
                           <div class=" col-sm-12 col-md-3" style="width: 25%;">
                             <label style="height: 25px;"></label>
                             <div>
+                              <img src="/asset/images/btn_loader.gif" id="po_search_loader1" class="input_loader po_search_loader" style="display: none; position: unset;width: 25px;height: 25px;text-align: left;float: left;margin-left: -20px;margin-right: 10px;margin-top: 3px;">
                               <button class="btn waves-effect waves-light left" type="button" onclick="updateData()" name="action" id="add_hotel" style="margin-right: 10px;height: 26px;padding: 4px 3px;background-color: #127623;font-size: 12px;line-height: 1;">Update</button>
                             <a href="{{URL::to('/company-master')}}" class="btn waves-effect waves-dark " style="background-color: #bfb32b;color: #fff;height: 26px;padding: 6px 4px;font-size: 12px;line-height: 1;">Back</a>
                           </div>
@@ -309,7 +310,11 @@ input:focus, textarea:focus, select:focus{
           processData: false,
           contentType: false,
           dataType: "json",
+          beforeSend:function(){
+            jQuery('#po_search_loader1').show();
+          },
           success: function(response) {
+            jQuery('#po_search_loader1').hide();
             console.log(response);
             if (response.status == 1) {
               iziToast.success({

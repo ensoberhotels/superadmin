@@ -145,6 +145,7 @@ input:focus, textarea:focus, select:focus{
                           <div class=" col-sm-12 col-md-2">
                             <label class="active" style="height: 19px;"></label>
                             <div>
+                              <img src="/asset/images/btn_loader.gif" id="po_search_loader1" class="input_loader po_search_loader" style="display: none; position: unset;width: 25px;height: 25px;text-align: left;float: left;margin-left: -20px;margin-right: 10px;margin-top: 3px;">
                               <button class="btn waves-effect waves-light left submitData"  type="button" onclick="saveData()" name="action" id="add_hotel" style="margin-right: 10px;height: 26px;padding: 0px 0px;font-size: 12px;line-height: 1; color: white;">Save
                                 <i class="material-icons right">send</i>
                               </button>
@@ -219,7 +220,6 @@ input:focus, textarea:focus, select:focus{
     <!-- BEGIN PAGE LEVEL JS-->
     <!-- <script src="{{ URL::asset('asset/js/scripts/form-wizard.js') }}" type="text/javascript"></script> -->
     <!-- END PAGE LEVEL JS-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
 	   <script type="text/javascript">
        function saveData(){
          var form=new FormData(document.getElementById('add_module_form'));
@@ -232,11 +232,11 @@ input:focus, textarea:focus, select:focus{
           contentType: false,
           dataType: "json",
           beforeSend:function(){
-            jQuery('.submitData').html("<i class='fa fa-circle-o-notch fa-spin'></i> Saving");
+            jQuery('#po_search_loader1').show();
           },
           success: function(response) {
+            jQuery('#po_search_loader1').hide();
             console.log(response);
-            jQuery('.submitData').html("&nbsp;&nbsp; Save <i class='material-icons right'>send</i>");
             if (response.status == 1) {
               iziToast.success({
                 timeout: 5000, 

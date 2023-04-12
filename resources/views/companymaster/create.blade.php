@@ -162,7 +162,7 @@ input:focus, textarea:focus, select:focus{
                           <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                              <label class="active">Company Address</label>
-                             <input type="text" name="company_add" id="company_add" class="form-control"> 
+                             <textarea name="company_add" id="company_add" cols="10" rows="1" class="form-control"></textarea>
                             </div>
                           </div>
                           <div class="col-sm-12 col-md-3">

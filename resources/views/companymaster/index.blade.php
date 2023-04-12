@@ -102,7 +102,7 @@ table.dataTable thead .sorting {
                      @php $i=1;@endphp
 				        @foreach($company as $companys)
                         <tr id="">
-                           <td style="display: inline-block;">{{$i}} <button type="button" id="btn_copy" class="btn btn-primary btn_copy_quo" id="btn_copy_quo_{{$i}}" onclick="copyToClipboard('text_',{{$i}})" style="padding: 2px;font-size: 14px;height: 27px;">Copy</button></td>
+                           <td style="display: inline-block;">{{$i}} <i class="material-icons btn_copy_quo" id="btn_copy_quo_{{$i}}" onclick="copyToClipboard('text_',{{$i}})" style="color:blue;font-size:17px;cursor:pointer;">content_copy</i><span>&nbsp;</span></td>
                            <td >{{$companys->company_name}}</td>
                            <td><img src="{{ asset('public/asset/company_logo/') }}/{{$companys->logo}}" height="50" width="50" alt="tag"></td>
                            <td >{{$companys->address}}</td>
@@ -238,7 +238,7 @@ table.dataTable thead .sorting {
         });
     }
     function copyToClipboard(element,id) {
-        jQuery("#btn_copy_quo_"+id).text('Copying...');
+          jQuery("#btn_copy_quo_"+id).closest('td').find('span').html('Copying...');
           var r = document.createRange();
           r.selectNode(document.getElementById(element+id));
           window.getSelection().removeAllRanges();
@@ -246,10 +246,10 @@ table.dataTable thead .sorting {
           document.execCommand('copy');
           window.getSelection().removeAllRanges();
           setTimeout(function(){
-            jQuery("#btn_copy_quo_"+id).text("Copied");
+            jQuery("#btn_copy_quo_"+id).closest('td').find('span').html('Copied');
           },500);
           setTimeout(function(){
-            jQuery("#btn_copy_quo_"+id).text("Copy Credential");
+            jQuery("#btn_copy_quo_"+id).closest('td').find('span').html('&nbsp;');
           },1000);
         }
 	</script>

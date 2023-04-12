@@ -171,13 +171,14 @@ class CompanyPrivilageController extends Controller
 		}
 	}
 	public function edit($id){
-		$record=CompanyPrivilage::where('company_id',$id)->first();
+		$record=CompanyPrivilage::where('company_id',$id)->with('getMenu')->get();
+		//dd($record[0]->getMenu->name);
 		$company=CompanyMaster::get();
 		$module=ModuleMaster::get();
 		return view('companyprivilage.update',compact('company','module','record'));
 	}
 	public function update(Request $request){
-		//dd($request->all());
+		//dd($request->all());where('company_id',$request->company_id)->
 		\DB::beginTransaction();
 		try{
             if(count($request->yes_nos)>0){
@@ -190,7 +191,7 @@ class CompanyPrivilageController extends Controller
 		            	// 'login_type'	=>	$request->login_typ,
 		            	// 'module_id'		=>	$request->module
 		            ];
-		            $save=CompanyPrivilage::where('company_id',$request->company_id)->where('module_id',$request->module)->where('login_type',$request->login_typ)->where('menu_id',$request->menu_id[$i])->update($post);
+		            $save=CompanyPrivilage::where('menu_id',$request->menu_id[$i])->update($post);
         		}
         	}
             

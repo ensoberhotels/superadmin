@@ -171,7 +171,6 @@ table.dataTable thead .sorting {
                       <th>Login Type</th>
                       <th>Parent Menu</th>
                       <th>T-Code</th>
-                      <th>Display Order</th>
                       <th>Path</th>
                       <th>Status</th>
                       <th class="no-sort">Action</th>
@@ -193,7 +192,6 @@ table.dataTable thead .sorting {
                            @endif
                            <td>{{@getParentMenuName($menus->parent_menu_id)}}</td>
                            <td>{{$menus->tcode}}</td>
-                           <td>{{$menus->display_order}}</td>
                            <td>{{$menus->path}}</td>
                            <td style="text-align: center;">
                             @if($menus->status == 'ACTIVE')

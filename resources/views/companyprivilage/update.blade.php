@@ -120,39 +120,7 @@ input:focus, textarea:focus, select:focus{
                       </div>
 			                <form class="add_car_form" id="add_company_form" method="POST" action="#" enctype="multipart/form-data" role="form">
                         {{csrf_field()}}
-                        <div class="row">           
-                          <div class="col-sm-12 col-md-3">
-                            <div class="form-group">
-                              <label class="active">Company Name</label>
-                              <select class="form-control disabled" id="company_id" name="company_id">
-                                <option value="">Company</option>
-                                @foreach($company as $companys)
-                                  <option value="{{$companys->id}}" @if($record->company_id == $companys->id) selected @endif>{{$companys->company_name}}</option>
-                                @endforeach     
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-sm-12 col-md-3">
-                            <div class="form-group">
-                              <label class="active">Login Type</label>
-                              <select class="form-control disabled" id="login_typ" name="login_typ">
-                                <option value="A" @if($record->login_type=='A') selected @endif>Admin</option>
-                                <option value="O" @if($record->login_type=='O') selected @endif>Operator</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-sm-12 col-md-3">
-                            <div class="form-group">
-                              <label class="active">Module</label>
-                              <select class="form-control disabled" id="module" name="module" onchange="return getTableData()">
-                                <option value="">Select Module</option>
-                                @foreach($module as $modules)
-                                  <option value="{{$modules->id}}" @if($record->module_id == $modules->id) selected @endif>{{$modules->title}}</option>
-                                @endforeach
-                              </select>
-                            </div>
-                          </div>
-                       </div>
+                        
                        <div class="row">
                           <div class="col s12">
                             <div class="table-responsive">
@@ -165,7 +133,16 @@ input:focus, textarea:focus, select:focus{
                                   </tr>
                                 </thead>
                                 <tbody id="table_body">
-                                  
+                                    @php $i=1;$yes_no='';$checked=''; @endphp
+                                    @foreach($record as $records)
+                                      <tr>
+                                        <td>{{$i}}</td>
+                                        <td>{{@$records->getMenu->name}}<input type="hidden" name="menu_id[]" value="{{$records->menu_id}}"></td>
+                                        <td><input type="checkbox" class="custome_checkbox chk" style="height: auto !important;" name="yes_no[]" id="yes_no_{{$i}}" @if($records->permission == 'Y') checked @endif onchange="check({{$i}})" value="{{$records->permission}}">
+                                        <input type="hidden" name="yes_nos[]" class="chks" id="yes_nos_{{$i}}" value="{{$records->permission}}"></td>
+                                      </tr>
+                                      @php $i++; @endphp
+                                    @endforeach
                                 </tbody>
                               </table>
                             </div>

@@ -143,4 +143,13 @@ if (!function_exists('getParentMenuName')) {
         return $menu_name;
     }
 }
+
+// This function use for get the parant menu name by menus->parent_menu_id
+if (!function_exists('getCompanyPassword')) {
+    function getCompanyPassword($id) {
+        $Admin = Admin::where('comp_admin_id', $id)->first();
+		$password = $Admin->password;
+        return $password;
+    }
+}
 ?>

@@ -101,28 +101,29 @@ table.dataTable thead .sorting {
                 <tbody>
                      @php $i=1;@endphp
 				        @foreach($company as $companys)
-                        <tr id="">
-                           <td style="display: inline-block;">{{$i}} <i class="material-icons btn_copy_quo" id="btn_copy_quo_{{$i}}" onclick="copyToClipboard('text_',{{$i}})" style="color:blue;font-size:17px;cursor:pointer;">content_copy</i><span>&nbsp;</span></td>
-                           <td >{{$companys->company_name}}</td>
-                           <td><img src="{{ asset('public/asset/company_logo/') }}/{{$companys->logo}}" height="50" width="50" alt="tag"></td>
-                           <td >{{$companys->address}}</td>
-                           <td>{{$companys->mobile}}</td>
-                           <td>{{$companys->email}}</td>
-                           <td>{{$companys->gstin}}</td>
-                           <td>{{$companys->company_type}}</td>
-                           <td>{{$companys->website}}</td>
-                           <td style="display: inline-flex;text-align: center;">
-                              <!-- <a href="{{URL::to('/company-master/')}}/{{$companys->id}}"><i class="fa fa-edit" style="font-size:25px;color:yellow"></i></a>
-                              <a href="{{URL::to('/company-master/')}}/{{$companys->id}}"><i class="fa fa-remove" style="font-size:25px;color:red"></i></a> -->
-                              <a href="{{URL::to('/company-master/')}}/{{$companys->id}}" class="badge bg-warning"><i class="fa fa-edit" style="font-size:20px;"></i></a>
-                              <button type="button" onclick="removeData({{$companys->id}})" name="btn_remove" id="btn_remove" class="badge bg-danger"><i class="fa fa-remove" style="font-size:20px;"></i></button>
-                           </td>
-                           <td style="display:none;" id="text_{{$i}}">
-                             <span>Username : {{$companys->email}}</span>
-                           </td>
-                        </tr>
-                        @php $i++;@endphp
-                    @endforeach
+                  <tr id="">
+                    <td style="display: inline-block;">{{$i}} <i class="material-icons btn_copy_quo" id="btn_copy_quo_{{$i}}" onclick="copyToClipboard('text_',{{$i}})" style="color:blue;font-size:17px;cursor:pointer;">content_copy</i><span>&nbsp;</span></td>
+                    <td >{{$companys->company_name}}</td>
+                    <td><img src="{{ asset('public/asset/company_logo/') }}/{{$companys->logo}}" height="50" width="50" alt="tag"></td>
+                    <td >{{$companys->address}}</td>
+                    <td>{{$companys->mobile}}</td>
+                    <td>{{$companys->email}}</td>
+                    <td>{{$companys->gstin}}</td>
+                    <td>{{$companys->company_type}}</td>
+                    <td>{{$companys->website}}</td>
+                    <td style="display: inline-flex;text-align: center;">
+                      <!-- <a href="{{URL::to('/company-master/')}}/{{$companys->id}}"><i class="fa fa-edit" style="font-size:25px;color:yellow"></i></a>
+                      <a href="{{URL::to('/company-master/')}}/{{$companys->id}}"><i class="fa fa-remove" style="font-size:25px;color:red"></i></a> -->
+                      <a href="{{URL::to('/company-master/')}}/{{$companys->id}}" class="badge bg-warning"><i class="fa fa-edit" style="font-size:20px;"></i></a>
+                      <button type="button" onclick="removeData({{$companys->id}})" name="btn_remove" id="btn_remove" class="badge bg-danger"><i class="fa fa-remove" style="font-size:20px;"></i></button>
+                    </td>
+                    <td style="color:white; font-size:0.1px;" id="text_{{$i}}">
+                      <span>Username : {{$companys->email}}</span><br>
+                      <span>Username : {{@getCompanyPassword($companys->id)}}</span>
+                    </td>
+                  </tr>
+                  @php $i++;@endphp
+              @endforeach
               </table>
               <div class="pagination">{{$company->links()}}</div>
             </div>

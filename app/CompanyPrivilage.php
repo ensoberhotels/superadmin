@@ -31,4 +31,7 @@ class CompanyPrivilage extends Model
 	public function getModule(){
         return $this->hasOne('App\ModuleMaster','id','module_id');
     }
+    public function getMenu(){
+        return $this->hasOne('App\MenuMaster','id','menu_id');
+    }
 }

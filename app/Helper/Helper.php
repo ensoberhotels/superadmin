@@ -2,7 +2,7 @@
 use Illuminate\Http\Request;
 
 use Illuminate\Http\RedirectResponse; 
- 
+use App\CompanyPrivilage;
 use App\Admin;
 use App\Vender;
 use App\Hotel;
@@ -54,7 +54,7 @@ use App\ITIHotelPriceList;
 use App\ITITranportPriceList;
 use App\MenuMaster;
 use App\ModuleMaster;
-
+use App\CompanyMaster;
 use Illuminate\Support\Facades\Session;
 
 if (!function_exists('getHotelRoomName')) {
@@ -141,6 +141,20 @@ if (!function_exists('getParentMenuName')) {
         $menu = MenuMaster::where('id', $id)->first();
 		$menu_name = $menu->name;
         return $menu_name;
+    }
+}
+if(!function_exists('getLoginType')){
+    function getLoginType($com,$typ){
+        $data=CompanyPrivilage::where('company_id',$com)->where('login_type',$typ)->where('permission','Y')->count();
+        //dd($data);
+        return $data;
+    }
+}
+if(!function_exists('getCompanyName')){
+    function getCompanyName($com){
+        $data=CompanyMaster::where('id',$com)->first();
+        dd($data);
+        return $data;
     }
 }
 ?>

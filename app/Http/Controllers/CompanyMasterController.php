@@ -82,6 +82,7 @@ class CompanyMasterController extends Controller
 					$CompanyMaster->logo			=	(isset($name) ? $name : '');
 					$CompanyMaster->address		=	$request->company_add;
 					$CompanyMaster->no_of_user	= $request->no_of_user;
+					$CompanyMaster->no_of_operator	= $request->no_of_operator;
             	$CompanyMaster->save();
 
             //dd($post);
@@ -159,7 +160,8 @@ class CompanyMasterController extends Controller
             	'description'	=>	$request->company_desc,
             	'logo'			=>	(isset($name) ? $name : ''),
             	'address'		=>	$request->company_add,
-            	'no_of_user'	=> $request->no_of_user
+            	'no_of_user'	=> $request->no_of_user,
+            	'no_of_operator'	=> $request->no_of_operator
             ];
             //dd($post);
             $save=CompanyMaster::where('id',$request->id)->update($post);

@@ -71,53 +71,66 @@ class CompanyPrivilageController extends Controller
 		return response()->json(['status' => 1, 'msg' => 'Data Fetch Successfully!', 'data' => $data]);
 	}
 	public function getTableData(Request $request){
-		if(gettype($request->module) == 'string'){
-			$module=MenuMaster::where('module',$request->module)->orderBy('id','DESC')->get();
-		}else{
-			$module=[];
-			for($i=0;$i<count($request->module);$i++){
-				$module[]=$request->module[$i];
+		$record=CompanyPrivilage::where('company_id',$request->company_id)->with('getCompany')->get();
+		if(isset($record)){
+			if($request->login_typ=='O'){
+				$login_typ='Operator';
+			}else{
+				$login_typ='Admin';
 			}
-			$module=MenuMaster::whereIn('module',$module)->orderBy('id','DESC')->get();
+			$records ='<tr>
+							<td colspan="3">'.$record[0]->getCompany->company_name.'  Company '.$login_typ. ' Privilage Already Exist!</td></tr>';
+			return response()->json(['status' => 1, 'msg' => 'Data Fetch Successfully!', 'data' => $records]);
+		}else{
+			if(gettype($request->module) == 'string'){
+				$module=MenuMaster::where('module',$request->module)->orderBy('id','DESC')->get();
+			}else{
+				$module=[];
+				for($i=0;$i<count($request->module);$i++){
+					$module[]=$request->module[$i];
+				}
+				$module=MenuMaster::whereIn('module',$module)->orderBy('id','DESC')->get();
+			}
+			
+			$record='';
+			$i=1;
+			if(count($module)>0){
+				foreach($module as $modules){
+					$records=CompanyPrivilage::where('menu_id',$modules->id)->first();
+					if(@$records->menu_id == $modules->id){
+						if($records->permission == 'Y'){
+							$yes_no='Y';
+							$checked='checked';
+						}else{
+							$yes_no='N';
+							$checked='';
+						}
+						$record .= '<tr>
+							<td>'.$i.'</td>
+							<td style="text-align: left;">'.$modules->name.'<input type="hidden" name="menu_id[]" value="'.$modules->id.'"></td>
+							<td>
+							<input type="checkbox" class="custome_checkbox chk" style="height: auto !important;" name="yes_no[]" id="yes_no_'.$i.'" '.$checked.' onchange="check('.$i.')" value="'.$yes_no.'">
+							<input type="hidden" name="yes_nos[]" class="chks" id="yes_nos_'.$i.'" value="'.$yes_no.'"></td>
+						</tr>';
+					}else{
+						$record .= '<tr>
+							<td>'.$i.'</td>
+							<td>'.$modules->name.'<input type="hidden" name="menu_id[]" value="'.$modules->id.'"></td>
+							<td>
+							<input type="checkbox" class="custome_checkbox chk" style="height: auto !important;" name="yes_no[]" id="yes_no_'.$i.'" onchange="check('.$i.')" value="N">
+							<input type="hidden" name="yes_nos[]" class="chks" id="yes_nos_'.$i.'" value="N"></td>
+						</tr>';
+					}
+					
+					$i++;
+
+				}
+				return response()->json(['status' => 1, 'msg' => 'Data Fetch Successfully!', 'data' => $record]);
+			}else{
+				return response()->json(['status' => 0, 'msg' => 'Data not Found!', 'data' => '']);
+			}
 		}
 		
-		$record='';
-		$i=1;
-		if(count($module)>0){
-			foreach($module as $modules){
-				$records=CompanyPrivilage::where('menu_id',$modules->id)->first();
-				if(@$records->menu_id == $modules->id){
-					if($records->permission == 'Y'){
-						$yes_no='Y';
-						$checked='checked';
-					}else{
-						$yes_no='N';
-						$checked='';
-					}
-					$record .= '<tr>
-						<td>'.$i.'</td>
-						<td>'.$modules->name.'<input type="hidden" name="menu_id[]" value="'.$modules->id.'"></td>
-						<td>
-						<input type="checkbox" class="custome_checkbox chk" style="height: auto !important;" name="yes_no[]" id="yes_no_'.$i.'" '.$checked.' onchange="check('.$i.')" value="'.$yes_no.'">
-						<input type="hidden" name="yes_nos[]" class="chks" id="yes_nos_'.$i.'" value="'.$yes_no.'"></td>
-					</tr>';
-				}else{
-					$record .= '<tr>
-						<td>'.$i.'</td>
-						<td>'.$modules->name.'<input type="hidden" name="menu_id[]" value="'.$modules->id.'"></td>
-						<td>
-						<input type="checkbox" class="custome_checkbox chk" style="height: auto !important;" name="yes_no[]" id="yes_no_'.$i.'" onchange="check('.$i.')" value="N">
-						<input type="hidden" name="yes_nos[]" class="chks" id="yes_nos_'.$i.'" value="N"></td>
-					</tr>';
-				}
-				
-				$i++;
-
-			}
-			return response()->json(['status' => 1, 'msg' => 'Data Fetch Successfully!', 'data' => $record]);
-		}else{
-			return response()->json(['status' => 0, 'msg' => 'Data not Found!', 'data' => '']);
-		}
 	}
 	public function save(Request $request){
 		// dd($request->all());
@@ -171,11 +184,23 @@ class CompanyPrivilageController extends Controller
 		}
 	}
 	public function edit($id){
-		$record=CompanyPrivilage::where('company_id',$id)->with('getMenu')->get();
+		if(request()->search == 1){
+			if(request()->module_id_name !=''){
+				$module_id_name=request()->module_id_name;
+				$record=CompanyPrivilage::where('company_id',$id)->where('module_id',request()->module_id_name)->with('getMenu')->get();
+			}else{
+				$module_id_name='';
+				$record=CompanyPrivilage::where('company_id',$id)->with('getMenu')->get();
+			}
+		}else{
+			$module_id_name='';
+			$record=CompanyPrivilage::where('company_id',$id)->with('getMenu')->get();
+		}
+		$id=$id;
 		//dd($record[0]->getMenu->name);
 		$company=CompanyMaster::get();
 		$module=ModuleMaster::get();
-		return view('companyprivilage.update',compact('company','module','record'));
+		return view('companyprivilage.update',compact('company','module','record','module_id_name','id'));
 	}
 	public function update(Request $request){
 		//dd($request->all());where('company_id',$request->company_id)->

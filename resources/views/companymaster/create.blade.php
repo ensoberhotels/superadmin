@@ -188,20 +188,28 @@ input:focus, textarea:focus, select:focus{
                              </select> 
                             </div>
                           </div>
+                          <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                             <label>No Of Operator</label>
+                             <input name="no_of_operator" type="number" id="no_of_operator" class="form-control"> 
+                             <span id="no_of_opt_err" style="color: red;font-size: 12px;"></span> 
+                            </div>
+                          </div>
                           <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                              <label class="active">Company Description</label>
                              <textarea  type="text" name="company_desc" id="company_desc" class="form-control" style="height: 33px;"> </textarea>
                             </div>
                           </div>
+
+                        </div>
+                        <div class="row">
                           <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                              <label class="active">Userame</label>
                              <input type="text" name="username" id="username" class="form-control" readonly>
                             </div>
                           </div>
-                        </div>
-                        <div class="row">
                           <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                              <label class="active">Password</label>
@@ -309,6 +317,18 @@ input:focus, textarea:focus, select:focus{
     <!-- <script src="{{ URL::asset('asset/js/scripts/form-wizard.js') }}" type="text/javascript"></script> -->
     <!-- END PAGE LEVEL JS-->
 	   <script type="text/javascript">
+      jQuery(document).ready(function(){
+        var no_of_user=jQuery('#no_of_user').val();
+          var no= 2 * parseInt(no_of_user);
+          jQuery('#no_of_operator').val(no);
+        jQuery('#no_of_user').change(function(){
+          //var no_of_operator=jQuery(this).val();
+          var no_of_user=jQuery(this).val();
+          var no= 2 * parseInt(no_of_user);
+          jQuery('#no_of_operator').val(no);
+        });
+      })
+        
        function saveData(){
          var form=new FormData(document.getElementById('add_company_form'));
          console.log(form);

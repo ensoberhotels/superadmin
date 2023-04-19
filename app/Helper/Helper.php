@@ -156,5 +156,14 @@ if(!function_exists('getCompanyName')){
         dd($data);
         return $data;
     }
+
+}
+// This function use for get the parant menu name by menus->parent_menu_id
+if (!function_exists('getCompanyPassword')) {
+    function getCompanyPassword($id) {
+        $Admin = Admin::where('comp_admin_id', $id)->first();
+		$password = $Admin->password;
+        return $password;
+    }
 }
 ?>

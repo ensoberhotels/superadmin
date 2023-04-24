@@ -71,7 +71,7 @@ class CompanyPrivilageController extends Controller
 		return response()->json(['status' => 1, 'msg' => 'Data Fetch Successfully!', 'data' => $data]);
 	}
 	public function getTableData(Request $request){
-		$record=CompanyPrivilage::where('company_id',$request->company_id)->with('getCompany')->get();
+		$record=CompanyPrivilage::where('company_id',$request->company_id)->where('login_type',$request->login_typ)->with('getCompany')->get();
 		if(isset($record)){
 			if($request->login_typ=='O'){
 				$login_typ='Operator';

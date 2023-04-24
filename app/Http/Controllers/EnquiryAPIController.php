@@ -24,35 +24,36 @@ class EnquiryAPIController extends Controller
 		//dd($request->all());
 		\DB::beginTransaction();
 		try{
-			// $validator = \Validator::make($request->all(), [ 
-   //          	'company_name'=>'required',
-   //          	// 'company_gstin'=>'required',
-   //          	'company_type'=>'required',
-   //          	'company_mobile'=>'required',
-   //          	'company_email'=>'required|email|unique:sua_company_master,email',
-   //          	'name'=>'required',
-   //          	'gstin'=>'required'
-   //          ]);
-   //          if ($validator->fails()) { 
-   //              return response()->json(['status' => 0, 'msg' => 'Error: '.$validator->errors()->first(), 'data' => '']);
-   //          }
+			$validator = \Validator::make($request->all(), [ 
+            	'company_name'=>'required',
+            	// 'company_gstin'=>'required',
+            	'company_type'=>'required',
+            	'company_mobile'=>'required',
+            	'company_email'=>'required|email|unique:sua_company_master,email',
+            	'name'=>'required',
+            	'gstin'=>'required'
+            ]);
+            if ($validator->fails()) { 
+                return response()->json(['status' => 0, 'msg' => 'Error: '.$validator->errors()->first(), 'data' => '']);
+            }
            if($request->file('company_logo')){
-           	$name = time().'_'.$request->file('company_logo')->getClientOriginalName();   
+           	$logo = time().'_'.$request->file('company_logo')->getClientOriginalName();   
            	//dd($name);   
               $destinationPath = public_path('/asset/company_logo');
-              $request->file('company_logo')->move($destinationPath, $name);
+              $request->file('company_logo')->move($destinationPath, $logo);
            }
             	$CompanyMaster=new ApplyCompRegMaster();
             	$CompanyMaster->company_name	=	$request->company_name;
-							$CompanyMaster->gstin			=	$request->company_gstin;
+							$CompanyMaster->gstin			=	$request->gstin;
 							$CompanyMaster->company_type	=	$request->company_type;
 							$CompanyMaster->mobile		=	$request->company_mobile;
 							$CompanyMaster->email			=	$request->company_email;
 							// $CompanyMaster->website		=	$request->company_web;
 							$CompanyMaster->description	=	$request->company_desc;
-							$CompanyMaster->logo			=	(isset($name) ? $name : '');
+							$CompanyMaster->logo			=	(isset($logo) ? $logo : '');
 							$CompanyMaster->address		=	$request->company_add;
 							$CompanyMaster->name	= $request->name;
+							//dd($CompanyMaster);
             	$CompanyMaster->save();
 
             
@@ -73,12 +74,12 @@ class EnquiryAPIController extends Controller
             $to =$request->username;
             $subject = 'Your Request';
             $pdf_name='';$ccemail='';
-            $sav=Admin::insert($data);
+            //$sav=Admin::insert($data);
             $this->send($message, $subject, $from, $to, $pdf_name='', $ccemail='');
-            if($sav){
+            if($CompanyMaster){
             	\DB::commit();
             	//dd($save);
-            	return response()->json(['status' => 1, 'msg' => 'Added Successfully', 'data' => $data]);
+            	return response()->json(['status' => 1, 'msg' => 'Added Successfully', 'data' =>'']);
             }else{
             	\DB::rollback();
             	return response()->json(['status' => 0, 'msg' => 'Data not save!', 'data' => '']);

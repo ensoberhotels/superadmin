@@ -88,4 +88,5 @@ Route::get('/clear-cache', function() {
 
 //  grievance view superadmin
 Route::get('/grievance', 'grievanceController@index');
+Route::post('/grievance/update', 'grievanceController@update');
 

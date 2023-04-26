@@ -13,14 +13,14 @@ table.dataTable thead .sorting {
     /* background-image: url(../images/sort_both.png); */
     font-size: 12px;
 } 
-/*.table>caption+thead>tr:first-child>td, .table>caption+thead>tr:first-child>th, .table>colgroup+thead>tr:first-child>td, .table>colgroup+thead>tr:first-child>th, .table>thead:first-child>tr:first-child>td, .table>thead:first-child>tr:first-child>th {
-    border-top: 0;
-    /* font-weight: normal; */
-    /*font-size: 12px;*/
-    /* display: inline-table; */
-    width: 20%;
-    /* padding-left: 26px; */
-} */
+.select-wrapper {
+  width: 100px !important;
+  text-decoration: none !important;
+}
+.select-wrapper input.select-dropdown{
+  font-size: 14px !important;
+  /* border-bottom: none !important; */
+}
    </style>
 @endsection
 
@@ -87,18 +87,28 @@ table.dataTable thead .sorting {
                         <th>Description</th>
                         <th>Image</th>
                         <th>From</th>
+                        <th>Status</th>
                     </tr>
                     </thead>
                     <tbody>
+                        <input type="hidden" name="" id="urlGrivance" value="{{url('/')}}">
                         @php $i=1;@endphp
                         @foreach($grievances as $grievance)
-                            <tr id="">
-                                <td style="display: inline-block;">{{$i}}</td>
-                                <td >{{$grievance->title}}</td>
-                                <td >{{$grievance->description}}</td>
-                                <td><a href="{{ asset('https://adminoperator.ensober.com/public/asset/images/grievance') }}/{{$grievance->attachment}}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('https://adminoperator.ensober.com/public/asset/images/grievance') }}/{{$grievance->attachment}}" height="50" width="50" alt="attachments"></td></a>
-                                <td>{{$grievance->from_name}}</td>
-                            </tr>
+                          <tr id="">
+                              <td style="display: inline-block;">{{$i}}</td>
+                              <td >{{$grievance->title}}</td>
+                              <td >{{$grievance->description}}</td>
+                              <td><a href="{{ asset('https://adminoperator.ensober.com/public/asset/images/grievance') }}/{{$grievance->attachment}}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('https://adminoperator.ensober.com/public/asset/images/grievance') }}/{{$grievance->attachment}}" height="50" width="50" alt="attachments"></td></a>
+                              <td>{{$grievance->from_name}}</td>
+                              <td  title="Click for change status">
+                                <img src="{{URL::asset('public/asset/images/btn_loader.gif')}}" class="input_loader po_search_loader" style="display: none; position: unset;width: 25px;height: 25px;text-align: left;float: left;margin-left: -35px;margin-right: 10px;margin-top: 10px;">
+                                <select name="status" class="grievanceStatus" GRVid="{{$grievance->id}}">
+                                  <option value="P" @if($grievance->status=='P') {{'selected'}} @endif>Pending</option>
+                                  <option value="W" @if($grievance->status=='W') {{'selected'}} @endif>Working</option>
+                                  <option value="D" @if($grievance->status=='D') {{'selected'}} @endif>Done</option>
+                                </select>
+                              </td>
+                          </tr>
                         @php $i++;@endphp
                         @endforeach
                     </tbody>
@@ -217,5 +227,37 @@ table.dataTable thead .sorting {
           }
         });
     }
+
+    jQuery(document).ready(function(){
+      jQuery(".grievanceStatus").on('change', function () {
+        var baseurl = jQuery('#urlGrivance').val();
+        var btn     = jQuery(this);
+        var GRVid   = btn.attr('GRVid');
+        var status  = btn.val();
+        jQuery.ajax({
+          type: "POST",
+          url: baseurl+'/grievance/update',
+          data: {'id':GRVid, 'status':status},
+          beforeSend:function(){
+            btn.closest('td').find('.po_search_loader').show();
+          },
+          success: function(response) {
+            console.log(response);
+            btn.closest('td').find('.po_search_loader').hide();
+            if (response.status == 1) {
+              iziToast.success({
+              timeout: 5000, 
+              icon: 'fa fa-chrome', 
+              title: 'Success', 
+              message: response.msg,
+              position:'topRight'
+            });
+            }else{
+              iziToast.error({timeout: 5000,title: 'Error', message: response.msg,position:'topRight'});
+            }
+          }
+        });
+      });
+    });
 	</script>
 @endsection

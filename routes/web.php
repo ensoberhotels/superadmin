@@ -88,4 +88,5 @@ Route::post('/company-reg/register', 'EnquiryAPIController@register');
 
 //  grievance view superadmin
 Route::get('/grievance', 'grievanceController@index');
+Route::post('/grievance/update', 'grievanceController@update');
 

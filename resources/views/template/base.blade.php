@@ -47,7 +47,7 @@
 
   </head>
   <!-- END: Head-->
-  <body class="vertical-layout vertical-menu-collapsible page-header-dark vertical-modern-menu 2-columns  " data-open="click" data-menu="vertical-modern-menu" data-col="2-columns">
+  <body class="vertical-layout vertical-menu-collapsible page-header-dark vertical-modern-menu 2-columns  " data-open="click" data-menu="vertical-modern-menu" data-col="2-columns" style="overflow-x: hidden;">
 
     <!-- BEGIN: Header-->
     @include('include.header')

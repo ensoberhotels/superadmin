@@ -88,7 +88,8 @@ table.dataTable thead .sorting {
                   <tr>
                       <th>Sr. No.</th>
                       <th>Company Name</th>
-                      <th>Login Type</th>
+                      <th>Admin</th>
+                      <th>Operator</th>
                       <th class="no-sort">Action</th>
                   </tr>
                 </thead>
@@ -99,11 +100,10 @@ table.dataTable thead .sorting {
                       <td>{{$i}}</td>
                       <td>{{@$comp_privs->getCompany->company_name}}</td>
                       <td style="text-align: center;">
-                        @if($comp_privs->login_type == 'A')
-                          <span class="badge bg-success" style="border-radius: 8px;font-size: 13px;">Admin</span>
-                        @else
-                          <span class="badge bg-operator" style="border-radius: 8px;font-size: 13px;">Operator</span>
-                        @endif
+                        {{@getLoginType($comp_privs->company_id,'A')}}
+                      </td>
+                      <td style="text-align: center;">
+                        {{@getLoginType($comp_privs->company_id,'O')}}
                       </td>
                       <td style="display: inline-flex;text-align: center;">
                         <a href="{{URL::to('/company-privilege/')}}/{{$comp_privs->company_id}}" class="badge bg-warning"><i class="fa fa-edit" style="font-size:20px;"></i></a>

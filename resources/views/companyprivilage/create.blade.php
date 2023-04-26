@@ -8,6 +8,9 @@
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('asset/vendors/materialize-stepper/materialize-stepper.min.css') }}"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
    <style>
+    body{
+      overflow-x: hidden;
+    }
         .step-actions {
             float: right;
         }
@@ -76,6 +79,38 @@ input:focus, textarea:focus, select:focus{
 .multiselect-wrapper ul{
   max-height: 95px !important;
 }
+.table_head {
+  position: relative;
+  overflow-x: hidden;
+  /*margin-top: 40px;*/
+}
+.header {
+  /*position: absolute;*/
+    overflow-y: scroll;
+    width: 100%;
+    /*display: inline-table;*/
+    /* height: 56px; */
+    margin-top: -36px;
+    /* padding-top: 20px;  /* heights, so these two lines make it work  */
+}
+.header .wrapper {
+ position: sticky; top: 0; z-index: 1;background:#fff;
+}
+
+.content {
+  padding-top: 20px;
+  height: 200px;
+  /*background-color: grey;*/
+  overflow: auto;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 3px;
+    line-height: 1;
+    text-align: center;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+
     </style>
 @endsection
 
@@ -112,12 +147,12 @@ input:focus, textarea:focus, select:focus{
         </div>
         <div class="col s12">
           <div class="container">
-            <div class="section section-form-wizard">
+            <div class="section section-form-wizard" style="padding-top: 0px;padding-bottom: 0px;">
               <!-- Linear Stepper -->	  
               <div class="row">
-                <div class="col s12">
-                  <div class="card">
-                    <div class="card-content">
+                <div class="col s12" style="margin-left: 0px;padding:0px;">
+                  <div class="card" style="margin-left: 2px;margin-right: 2px;margin-top: 2px">
+                    <div class="card-content" style="padding: 5px;">
                       <div class="card-header">
                           <h4 class="card-title">Create Company Privilege</h4>
                       </div>
@@ -167,16 +202,16 @@ input:focus, textarea:focus, select:focus{
                        </div>
                        <div class="row">
                           <div class="col s12">
-                            <div class="table-responsive">
+                            <div class="table-responsive table_head" style="height: 350px;overflow-y: scroll;">
                               <table id="multi-select" class="table table-hover">
-                                <thead>
-                                  <tr>
+                                <thead class="header">
+                                  <tr class="wrapper">
                                       <th>Sr. No.</th>
-                                      <th>Menu Name</th>
+                                      <th style="text-align: left;">Menu Name</th>
                                       <th>Show / Hide <input type="checkbox" class="custome_checkbox" name="checked" id="checked" onclick="checkAll()" value="N"></th>
                                   </tr>
                                 </thead>
-                                <tbody id="table_body">
+                                <tbody id="table_body" class="content">
                                   
                                 </tbody>
                               </table>
@@ -252,6 +287,11 @@ input:focus, textarea:focus, select:focus{
 }
 .select-wrapper .select-dropdown {
     display: none !important;
+}
+th {
+    margin: 0 !important;
+    padding: 6px 5px 6px !important;
+    background: #eee;
 }
 /*[type='checkbox']:not(:checked), [type='checkbox']:checked {
     position: absolute;
@@ -360,7 +400,7 @@ input:focus, textarea:focus, select:focus{
         jQuery.ajax({
           type: "POST",
           url: '/company-privilege/data',
-          data: {'module':modules},
+          data: {'module':modules,'company_id':company_id,'login_typ':login_typ},
           dataType: "json",
           success: function(response) {
             console.log(response);
@@ -555,6 +595,16 @@ input:not([type]), input[type=text]:not(.browser-default), input[type=password]:
 .btn.focus, .btn:focus, .btn:hover {
     color: #fff;
     text-decoration: none;
+}
+.multiselect-wrapper .multiselect-list {
+    z-index: 3;
+    position: absolute;
+    display: none;
+    background-color: white;
+    border: 1px solid grey;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    /* margin-top: -2px; */
 }
 </style>
 @endsection

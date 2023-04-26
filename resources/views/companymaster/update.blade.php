@@ -186,11 +186,19 @@ input:focus, textarea:focus, select:focus{
                           <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                              <label>No Of Property</label>
-                             <select name="no_of_user" id="no_of_user" class="form-control"> 
+                             <select name="no_of_user" id="no_of_user" class="form-control">
+
                                 @for($i=1;$i<=8;$i++)
                                   <option value="{{$i}}" @if($record->no_of_user ==$i) selected @endif>{{$i}}</option>
                                 @endfor
                              </select> 
+                            </div>
+                          </div>
+                          <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                             <label>No Of Operator</label>
+                             <input name="no_of_operator" type="number" value="{{$record->no_of_operator}}" id="no_of_operator" class="form-control">
+                             <span id="no_of_opt_err" style="color: red;font-size: 12px;"></span> 
                             </div>
                           </div>
                           <div class="col-sm-12 col-md-6">
@@ -200,14 +208,15 @@ input:focus, textarea:focus, select:focus{
                              <input type="hidden" name="id" value="{{@$record->id}}" id="id" class="form-control"> 
                             </div>
                           </div>
+                        </div>
+                        <div class="row">
+
                           <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                              <label class="active">Userame</label>
                              <input type="text" name="username" value="{{$record->email}}" id="username" class="form-control" readonly>
                             </div>
                           </div>
-                        </div>
-                        <div class="row">
                           <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                              <label class="active">Password</label>
@@ -300,6 +309,17 @@ input:focus, textarea:focus, select:focus{
 </style>
     <!-- END PAGE LEVEL JS-->
 	   <script type="text/javascript">
+      jQuery(document).ready(function(){
+        var no_of_user=jQuery('#no_of_user').val();
+          var no= 2 * parseInt(no_of_user);
+          jQuery('#no_of_operator').val(no);
+        jQuery('#no_of_user').change(function(){
+          //var no_of_operator=jQuery(this).val();
+          var no_of_user=jQuery(this).val();
+          var no= 2 * parseInt(no_of_user);
+          jQuery('#no_of_operator').val(no);
+        });
+      })
        function updateData(){
          var form=new FormData(document.getElementById('add_company_form'));
          console.log(form);

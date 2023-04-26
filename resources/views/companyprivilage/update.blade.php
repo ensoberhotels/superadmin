@@ -8,6 +8,9 @@
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('asset/vendors/materialize-stepper/materialize-stepper.min.css') }}"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
    <style>
+    body{
+      overflow-x: hidden;
+    }
         .step-actions {
             float: right;
         }
@@ -73,6 +76,37 @@ input:focus, textarea:focus, select:focus{
     font-weight: normal;
     font-size: 13px;
 }
+.table_head {
+  position: relative;
+  overflow-x: hidden;
+  /*margin-top: 40px;*/
+}
+.header {
+  /*position: absolute;*/
+    overflow-y: scroll;
+    width: 100%;
+    /*display: inline-table;*/
+    /* height: 56px; */
+    margin-top: -36px;
+    /* padding-top: 20px;  /* heights, so these two lines make it work  */
+}
+.header .wrapper {
+ position: sticky; top: 0; z-index: 1;background:#fff;
+}
+
+.content {
+  padding-top: 20px;
+  height: 200px;
+  /*background-color: grey;*/
+  overflow: auto;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 3px;
+    line-height: 1;
+    text-align: center;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
     </style>
 @endsection
 
@@ -109,35 +143,59 @@ input:focus, textarea:focus, select:focus{
         </div>
         <div class="col s12">
           <div class="container">
-            <div class="section section-form-wizard">
+            <div class="section section-form-wizard" style="padding-top: 0px;padding-bottom: 0px;">
               <!-- Linear Stepper -->	  
-              <div class="row">
-                <div class="col s12">
-                  <div class="card">
-                    <div class="card-content">
+              <div class="row" >
+                <div class="col s12" style="margin-left: 0px;padding:0px;">
+                  <div class="card" style="margin-left: 2px;margin-right: 2px;margin-top: 2px">
+                    <div class="card-content" style="padding: 5px;">
                       <div class="card-header">
-                          <h4 class="card-title">Update New Menu</h4>
+                          <h4 class="card-title">Update Company Privilege</h4>
                       </div>
+                      <form  method="GET" action="{{ URL::to('/company-privilege') }}/{{$id}}">
+                        @csrf
+                        <div class="row">
+                          <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                              <label class="active">Module</label>
+                              <div id="module_body">
+                                  <select class="form-control" id="module_id_name" name="module_id_name" >
+                                    <option value="">Select Module</option>
+                                    @foreach($module as $module)
+                                      <option value="{{$module->id}}" @if($module->id == $module_id_name) selected @endif>{{$module->title}}</option>
+                                    @endforeach
+                                  </select>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col s3">
+                            <label></label>
+                            <button type="submit" name="search" value="1" class="btn waves-effect waves-light" style="margin-right: 10px;height: 26px;padding: 4px 4px 4px 4px;background-color: #1cd106;font-size: 12px;line-height: 1;margin-top: 27px;">Search</button>
+                            <button type="submit" name="reset" value="0" class="btn waves-effect waves-light" style="margin-right: 10px;height: 26px;padding: 4px 4px 4px 4px;background-color:#da346c;font-size: 12px;line-height: 1;margin-top: 27px;">Reset</button>
+                          </div>
+                        </div>
+                      </form>
 			                <form class="add_car_form" id="add_company_form" method="POST" action="#" enctype="multipart/form-data" role="form">
                         {{csrf_field()}}
-                        
-                       <div class="row">
+                        <div class="row">
                           <div class="col s12">
-                            <div class="table-responsive">
+                            <div class="table-responsive table_head" style="height: 350px;overflow-y: scroll;">
                               <table id="multi-select" class="table table-hover">
-                                <thead>
-                                  <tr>
+                                <thead class="header">
+                                  <tr class="wrapper">
                                       <th>Sr. No.</th>
-                                      <th>Menu Name</th>
+                                      <th style="text-align:left;">Menu Name</th>
+                                      <th style="text-align:left;">Module Name</th>
                                       <th>Show / Hide <input type="checkbox" class="custome_checkbox" name="checked" id="checked" onclick="checkAll()" value="N"></th>
                                   </tr>
                                 </thead>
-                                <tbody id="table_body">
+                                <tbody id="table_body" class="content">
                                     @php $i=1;$yes_no='';$checked=''; @endphp
                                     @foreach($record as $records)
                                       <tr>
                                         <td>{{$i}}</td>
-                                        <td>{{@$records->getMenu->name}}<input type="hidden" name="menu_id[]" value="{{$records->menu_id}}"></td>
+                                        <td style="text-align:left;">{{@$records->getMenu->name}}<input type="hidden" name="menu_id[]" value="{{$records->menu_id}}"></td>
+                                        <td style="text-align:left;">{{@$records->getModule->title}}<input type="hidden" name="module_id[]" value="{{$records->module_id}}"></td>
                                         <td><input type="checkbox" class="custome_checkbox chk" style="height: auto !important;" name="yes_no[]" id="yes_no_{{$i}}" @if($records->permission == 'Y') checked @endif onchange="check({{$i}})" value="{{$records->permission}}">
                                         <input type="hidden" name="yes_nos[]" class="chks" id="yes_nos_{{$i}}" value="{{$records->permission}}"></td>
                                       </tr>
@@ -161,7 +219,7 @@ input:focus, textarea:focus, select:focus{
                             </div>
                           </div>
                         </div>
-            </form>
+                      </form>
                 </div>
             </div>
         </div>
@@ -225,6 +283,11 @@ input:focus, textarea:focus, select:focus{
 }
 .select-wrapper .select-dropdown {
     display: none !important;
+}
+th {
+    margin: 0 !important;
+    padding: 6px 5px 6px !important;
+    background: #eee;
 }
 </style>
     <!-- END PAGE LEVEL JS-->

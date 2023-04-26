@@ -16,6 +16,7 @@
         <li class="bold @if(Request::segment(1) == 'module-master') {{ 'active activenav' }} @endif"><a class="collapsible-header waves-effect waves-cyan " href="{{URL::to('/module-master')}}"><i class="material-icons">view_module</i><span class="menu-title" data-i18n="">Module Master</span></a></li>
         <li class="bold @if(Request::segment(1) == 'menu-master') {{ 'active activenav' }} @endif"><a class="collapsible-header waves-effect waves-cyan " href="{{URL::to('/menu-master')}}"><i class="material-icons">menu</i><span class="menu-title" data-i18n="">Menu Master</span></a></li>
         <li class="bold @if(Request::segment(1) == 'company-privilege') {{ 'active activenav' }} @endif"><a class="collapsible-header waves-effect waves-cyan " href="{{URL::to('/company-privilege')}}"><i class="material-icons">fact_check</i><span class="menu-title" data-i18n="">Company Privilege</span></a></li>
+        <li class="bold @if(Request::segment(1) == 'company-reg') {{ 'active activenav' }} @endif"><a class="collapsible-header waves-effect waves-cyan " href="{{URL::to('/company-reg')}}"><i class="material-icons">fact_check</i><span class="menu-title" data-i18n="">Company Registration</span></a></li>
                     <!-- <div class="collapsible-body">
                         <ul class="collapsible" data-collapsible="accordion">
                             <li><a class="collapsible-body" href="{{URL::to('/admin/hotel')}}" data-i18n=""><i class="material-icons">radio_button_unchecked</i><span>Hotel Vendor</span></a>

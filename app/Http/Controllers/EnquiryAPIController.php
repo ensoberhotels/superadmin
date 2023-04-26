@@ -16,6 +16,7 @@ use PDF;
 use Validator;
 use Illuminate\Support\Facades\Session;
 use App\ApplyCompRegMaster;
+use App\CompanyMaster;
 class EnquiryAPIController extends Controller
 {
 	
@@ -84,6 +85,71 @@ class EnquiryAPIController extends Controller
             	\DB::rollback();
             	return response()->json(['status' => 0, 'msg' => 'Data not save!', 'data' => '']);
             }
+            
+		}catch(Exception $e){
+			\DB::rollback();
+            return response()->json(['status' => 0, 'msg' => $e->getMessage(), 'data' => '']);
+		}
+	}
+
+	public function index(){
+		$company=ApplyCompRegMaster::orderBy('id','DESC')->paginate(10);
+		return view('company-reg.index',compact('company'));
+	}
+
+	public function register(Request $request){
+		\DB::beginTransaction();
+		try{
+			$company=ApplyCompRegMaster::where('show_flag','C')->where('id',$request->id)->first();
+			if(isset($company)){
+	      	$CompanyMaster=new CompanyMaster();
+	      	$CompanyMaster->company_name	=	$company->company_name;
+				$CompanyMaster->gstin			=	'';
+				$CompanyMaster->company_type	=	$company->company_type;
+				$CompanyMaster->mobile		=	$company->mobile;
+				$CompanyMaster->email			=	$company->email;
+				$CompanyMaster->website		=	$company->website;
+				$CompanyMaster->description	=	'';
+				$CompanyMaster->logo			=	$company->logo;
+				$CompanyMaster->address		=	$company->address;
+				$CompanyMaster->no_of_user	= 2;
+				$CompanyMaster->no_of_operator	= 2;
+	      	$CompanyMaster->save();
+	         $data=[
+	         	'user'	=>	$company->email,
+	         	'password'		=>'123456',
+	         	'user_type'=>'CA',
+	         	'comp_id'=>$CompanyMaster->id
+	         ];
+	         $message= '<table>
+	         	<tr>
+	         		<td>Username</td>
+	         		<td>'.$company->email.'</td>
+	         	</tr>
+	         	<tr>
+	         		<td>Password</td>
+	         		<td>123456</td>
+	         	</tr>
+	         </table>';
+	         $from =$company->email;
+	         $to =$company->email;
+	         $subject = 'Your Login Credential';
+	         $pdf_name='';$ccemail='';
+	         $sav=Admin::insert($data);
+	         $this->send($message, $subject, $from, $to, $pdf_name='', $ccemail='');
+	         $company=ApplyCompRegMaster::where('id',$request->id)->update(['show_flag'=>'A']);
+	         if($sav){
+	         	\DB::commit();
+	         	//dd($save);
+	         	return response()->json(['status' => 1, 'msg' => 'Added Successfully', 'data' => $data]);
+	         }else{
+	         	\DB::rollback();
+	         	return response()->json(['status' => 0, 'msg' => 'Data not save!', 'data' => '']);
+	         }
+	      }else{
+	      	\DB::rollback();
+	         	return response()->json(['status' => 0, 'msg' => 'Something Went Wrong!', 'data' => '']);
+	      }
             
 		}catch(Exception $e){
 			\DB::rollback();

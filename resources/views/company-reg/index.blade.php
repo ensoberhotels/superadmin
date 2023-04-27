@@ -271,8 +271,10 @@ table.dataTable thead .sorting {
                       var tableHTML='';
                       if(response.data == 'C'){
                          tableHTML+='<span onclick="return changeStatus('+id+')" name="action" class="td_status" >Pending</span>';
-                      }else{
+                      }else if(response.data == 'A'){
                          tableHTML+='<span  name="action" class="td_status_inactive" >Completed</span>';
+                      }else{
+                        tableHTML+='<span onclick="return changeStatus('+id+')" name="action" class="td_status" >Incomplete</span>';
                       }
                       jQuery('#show_act_'+id).html(tableHTML);
                     }, 5000);

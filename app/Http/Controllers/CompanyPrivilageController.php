@@ -171,6 +171,7 @@ class CompanyPrivilageController extends Controller
 							'updated_by'	=>	'Admin',
 							'login_type'	=>	$request->login_typ,
 							'module_id'		=>	$menu->module,
+							'menu_flag' 	=>	'Y',
 						];
 						CompanyPrivilage::insert($post);
 					}

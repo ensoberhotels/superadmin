@@ -215,7 +215,7 @@ input:focus, textarea:focus, select:focus{
                                 <!-- <i class="material-icons right">send</i> -->
                               </button>
                               <a href="{{URL::to('/company-privilege')}}" class="btn waves-effect waves-dark" style="background-color: #bfb32b;color: #fff;height: 26px;padding: 6px 4px;font-size: 12px;line-height: 1;">Back</a>
-                              <img src="{{URL::asset('/asset/images/btn_loader.gif')}}" id="po_search_loader1" class="input_loader po_search_loader" style="display: none; position: unset;width: 25px;height: 25px;margin-top: 10px;">
+                              <img src="{{URL::asset('/public/asset/images/btn_loader.gif')}}" id="po_search_loader1" class="input_loader po_search_loader" style="display: none; position: unset;width: 25px;height: 25px;margin-top: 10px;">
                             </div>
                           </div>
                         </div>

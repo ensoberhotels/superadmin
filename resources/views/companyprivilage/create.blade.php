@@ -223,7 +223,7 @@ input:focus, textarea:focus, select:focus{
                           <div class=" col-sm-12 col-md-3">
                             <label class="active" style="height: 19px;"></label>
                             <div>
-                              <img src="{{URL::asset('/asset/images/btn_loader.gif')}}" id="po_search_loader1" class="input_loader po_search_loader" style="display: none; position: unset;width: 25px;height: 25px;text-align: left;float: left;margin-left: -27px;margin-right: 10px;margin-top: 3px;">
+                              <img src="{{URL::asset('/public/asset/images/btn_loader.gif')}}" id="po_search_loader1" class="input_loader po_search_loader" style="display: none; position: unset;width: 25px;height: 25px;text-align: left;float: left;margin-left: -27px;margin-right: 10px;margin-top: 3px;">
                               <button class="btn waves-effect waves-light left" type="button" onclick="saveData()" name="action" id="add_hotel" style="margin-right: 10px;height: 26px;padding: 4px 3px;background-color: #127623;font-size: 12px;line-height: 1;">Save
                                 <!-- <i class="material-icons right">send</i> -->
                               </button>

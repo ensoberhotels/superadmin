@@ -117,7 +117,7 @@ table.dataTable thead .sorting {
                       @else
                         <span onclick="return changeStatus({{$companys->id}})" name="action" class="td_status_1" >Incomplete</span>
                       @endif
-                      <img src="/asset/images/btn_loader.gif" id="po_search_loader{{$companys->id}}" class="input_loader po_search_loader" style="display: none;position: unset;width: 18px;height: 18px;text-align: left;float: right;margin-left: 3px;margin-right: 8px;margin-top: 2px;">
+                      <img src="/public/asset/images/btn_loader.gif" id="po_search_loader{{$companys->id}}" class="input_loader po_search_loader" style="display: none;position: unset;width: 18px;height: 18px;text-align: left;float: right;margin-left: 3px;margin-right: 8px;margin-top: 2px;">
                     </td>
                   </tr>
                   @php $i++;@endphp

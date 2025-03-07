@@ -10,17 +10,8 @@
     display: none;
 }
 table.dataTable thead .sorting {
-    /* background-image: url(../images/sort_both.png); */
     font-size: 12px;
 } 
-/*.table>caption+thead>tr:first-child>td, .table>caption+thead>tr:first-child>th, .table>colgroup+thead>tr:first-child>td, .table>colgroup+thead>tr:first-child>th, .table>thead:first-child>tr:first-child>td, .table>thead:first-child>tr:first-child>th {
-    border-top: 0;
-    /* font-weight: normal; */
-    /*font-size: 12px;*/
-    /* display: inline-table; */
-    width: 20%;
-    /* padding-left: 26px; */
-} */
    </style>
 @endsection
 
@@ -75,9 +66,10 @@ table.dataTable thead .sorting {
 				<div class="col s6">
 					<h4 class="card-title">Module Master</h4>
 				</div>
-				<div class="col s2 m6 l6" style="text-align: right;">
+				<div class="col s6 m6 l6" style="text-align: right;">
 					<!-- <a class="mb-6 btn waves-effect waves-light gradient-45deg-purple-deep-orange gradient-shadow">Delete</a> -->
-					<button class="btn waves-effect waves-light left" type="button" onclick="saveData()" name="action" id="add_hotel" style="margin-right: 10px;height: 26px;padding: 4px 3px;background-color: #127623;font-size: 12px;line-height: 1;"><a href="{{URL::to('/module-master/create')}}">ADD</a></button>
+          <a href="{{URL::to('/module-master/create')}}" class="btn waves-effect waves-light" style="margin-right: 10px;height: 26px;padding: 6px 6px 6px 6px;background-color: #1cd106;font-size: 12px;line-height: 1;">Add Module</a>
+					<!-- <button class="btn waves-effect waves-light left" type="button" onclick="saveData()" name="action" id="add_hotel" style="margin-right: 10px;height: 26px;padding: 6px 6px 6px 6px;background-color: #1cd106;font-size: 12px;line-height: 1;"><a href="{{URL::to('/module-master/create')}}">ADD</a></button> -->
 				</div>
 			</div>
           <div class="row">

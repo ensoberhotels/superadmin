@@ -77,7 +77,7 @@ table.dataTable thead .sorting {
 				</div>
 				<div class="col s2 m6 l6" style="text-align: right;">
 					<!-- <a class="mb-6 btn waves-effect waves-light gradient-45deg-purple-deep-orange gradient-shadow">Delete</a> -->
-					<a href="{{URL::to('/company-privilege/create')}}" class="btn waves-effect waves-light" style="margin-right: 10px;height: 26px;padding: 6px 6px 6px 6px;background-color: #1cd106;font-size: 12px;line-height: 1;">ADD</a>
+          <a href="{{URL::to('/company-privilege/create')}}" class="btn waves-effect waves-light" style="margin-right: 10px;height: 26px;padding: 6px 6px 6px 6px;background-color: #1cd106;font-size: 12px;line-height: 1;">Add Privilege</a>
 				</div>
 			</div>
           <div class="row">
@@ -96,6 +96,7 @@ table.dataTable thead .sorting {
                 <tbody>
                   @php $i=1; @endphp
                   @foreach($comp_priv as $comp_privs)
+                  <?php //echo "<pre>";print_r($comp_privs);echo "</pre>"; ?>
                     <tr>
                       <td>{{$i}}</td>
                       <td>{{@$comp_privs->getCompany->company_name}}</td>
@@ -107,7 +108,7 @@ table.dataTable thead .sorting {
                       </td>
                       <td style="display: inline-flex;text-align: center;">
                         <a href="{{URL::to('/company-privilege/')}}/{{$comp_privs->company_id}}" class="badge bg-warning"><i class="fa fa-edit" style="font-size:20px;"></i></a>
-                        <button type="button" onclick="removeData({{$comp_privs->module_id}})" name="btn_remove" id="btn_remove" class="badge bg-danger"><i class="fa fa-remove" style="font-size:20px;"></i></button>
+                        <!-- <button type="button" onclick="removeData({{$comp_privs->id}})" name="btn_remove" id="btn_remove" class="badge bg-danger"><i class="fa fa-remove" style="font-size:20px;"></i></button> -->
                      </td>
                     </tr>
                     @php $i++; @endphp
@@ -169,7 +170,7 @@ table.dataTable thead .sorting {
 }
 .bg-warning{
   --bs-bg-opacity: 1;
-    background-color: #ffff1a !important;
+    background-color: #a5a509 !important;
     border: 0px;
     margin-right: 5px;
 }
@@ -212,7 +213,8 @@ table.dataTable thead .sorting {
 	
 	<script>
 		function removeData(id){
-      jQuery.ajax({
+      if (confirm('Are you sure?')) {
+        jQuery.ajax({
           type: "POST",
           url: '/menu-master',
           data: {'id':id},
@@ -234,6 +236,7 @@ table.dataTable thead .sorting {
             }
           }
         });
+      }
     }
 	</script>
 @endsection

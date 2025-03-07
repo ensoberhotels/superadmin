@@ -111,7 +111,7 @@ table.dataTable thead .sorting {
 				</div>
 				<div class="col s2 m6 l6" style="text-align: right;">
 					<!-- <a class="mb-6 btn waves-effect waves-light gradient-45deg-purple-deep-orange gradient-shadow">Delete</a> -->
-					<a href="{{URL::to('/menu-master/create')}}" class="mb-6 btn waves-effect waves-light gradient-45deg-green-teal gradient-shadow">ADD</a>
+          <a href="{{URL::to('/menu-master/create')}}" class="btn waves-effect waves-light" style="margin-right: 10px;height: 26px;padding: 6px 6px 6px 6px;background-color: #1cd106;font-size: 12px;line-height: 1;">Add Menu</a>
 				</div>
 			</div>
       <form action="{{ URL::to('/menu-master') }}">
@@ -256,7 +256,7 @@ table.dataTable thead .sorting {
 }
 .bg-warning{
   --bs-bg-opacity: 1;
-    background-color: #ffff1a !important;
+    background-color: #a5a509 !important;
     border: 0px;
     margin-right: 5px;
 }

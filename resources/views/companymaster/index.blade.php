@@ -206,7 +206,8 @@ table.dataTable thead .sorting {
 	
 	<script>
 		function removeData(id){
-      jQuery.ajax({
+      if (confirm('Are you sure?')) {
+        jQuery.ajax({
           type: "POST",
           url: '/company-master',
           data: {'id':id},
@@ -228,6 +229,7 @@ table.dataTable thead .sorting {
             }
           }
         });
+      }
     }
     function copyToClipboard(element,id) {
           jQuery("#btn_copy_quo_"+id).closest('td').find('span').html('Copying...');

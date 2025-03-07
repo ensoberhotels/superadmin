@@ -110,7 +110,7 @@ table.dataTable thead .sorting {
                     </td>
                     <td style="color:white; font-size:0.1px;" id="text_{{$i}}">
                       <span>Username : {{$companys->email}}</span><br>
-                      <span>Username : {{@getCompanyPassword($companys->id)}}</span>
+                      <span>Password : {{@getCompanyPassword($companys->id)}}</span>
                     </td>
                   </tr>
                   @php $i++;@endphp

@@ -86,6 +86,7 @@ table.dataTable thead .sorting {
                         <th>Title</th>
                         <th>Description</th>
                         <th>Image</th>
+                        <th>Company</th>
                         <th>From</th>
                         <th>Status</th>
                     </tr>
@@ -99,6 +100,7 @@ table.dataTable thead .sorting {
                               <td >{{$grievance->title}}</td>
                               <td >{{$grievance->description}}</td>
                               <td><a href="{{ asset('https://portal.ensober.com/public/public/asset/images/grievance') }}/{{$grievance->attachment}}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('https://portal.ensober.com/public/public/asset/images/grievance') }}/{{$grievance->attachment}}" height="50" width="50" alt="attachments"></td></a>
+                              <td>{{getCompanyName($grievance->company_id)}}</td>
                               <td>{{$grievance->from_name}}</td>
                               <td  title="Click for change status">
                                 <img src="{{URL::asset('public/asset/images/btn_loader.gif')}}" class="input_loader po_search_loader" style="display: none; position: unset;width: 25px;height: 25px;text-align: left;float: left;margin-left: -35px;margin-right: 10px;margin-top: 10px;">

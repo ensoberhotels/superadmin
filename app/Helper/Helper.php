@@ -153,8 +153,9 @@ if(!function_exists('getLoginType')){
 if(!function_exists('getCompanyName')){
     function getCompanyName($com){
         $data=CompanyMaster::where('id',$com)->first();
-        dd($data);
-        return $data;
+        if($data){
+			return $data->company_name;
+		}
     }
 
 }
